@@ -11,14 +11,6 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
-// var mustacheExpress = require('express-handlebars');
-
-// // Register '.mustache' extension with The Mustache Express
-// app.engine('mustache', mustacheExpress({
-//   extname: 'mustache', 
-//   defaultLayout: 'layout'
-// }));
-
 var hbs = require("express-handlebars");
 
 app.engine('hbs', hbs({
