@@ -1,0 +1,29 @@
+<fieldset>
+    <legend><b>Insert Into Database</b></legend>
+    <form method="POST" action="/test_db/insert">
+        <label for="title">Title</label></br>
+        <input type="text" name="title" id="title" required></input></br></br>
+        <label for="content">Content</label></br>
+        <input type="text" name="content" id="content" required></input></br></br>
+        <button>Submit</button>
+    </form>
+</fieldset>
+
+</br>
+
+<fieldset>
+    <legend><b>Database Content</b></legend>
+    <div id="items"></div>
+</fieldset>
+
+
+<script>
+    var jsonItems = '{{{items}}}';
+    let items = JSON.parse(jsonItems);
+    let div = document.getElementById("items")
+    for(let i = 0; i < items.length; i++) {
+        let newNode = document.createElement('p');
+        newNode.innerHTML = JSON.stringify(items[i]);
+        div.appendChild(newNode);
+    }
+</script>
