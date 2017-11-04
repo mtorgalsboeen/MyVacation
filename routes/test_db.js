@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
           res.render('test_db', {items: JSON.stringify(result)});
         } else {
           // res.send('No documents found');
-          res.render('test_db', {items: JSON.stringify(result)});
+          res.render('test_db', {items: "" });
         }
         db.close();
       }); 
