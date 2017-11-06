@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="/stylesheets/chat.css" type="text/css" />
+<script src="/socket.io/socket.io.js"></script>
+
+<h1>Chat</h1>
+
+<div class="chat-form">
+  <div id="chat-area"></div>
+  
+  <form id="messageForm">
+    <label>Enter Message</label>
+    <textarea id="message"></textarea>
+    <br>
+    <input type="submit" value="Send Message">
+  </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        //alert("hurrah");
+        var socket = io.connect(); 
+        
+        var $messageForm = $("#messageForm"); 
+        var $message = $("#message"); 
+        var $chat = $("#chat-area"); 
+        
+        $messageForm.submit(function(e) {
+            e.preventDefault(); 
+            socket.emit('send message', $message.val()); 
+            $message.val(''); 
+        }); 
+        
+        socket.on('new message', function(data) {
+          console.log("here!!!!"); 
+          $chat.append('<div>' + data.msg + '</div>'); 
+        }); 
+        
+    }); 
+</script>
