@@ -1,36 +1,80 @@
 <link rel="stylesheet" href="/stylesheets/chat.css" type="text/css" />
 <script src="/socket.io/socket.io.js"></script>
 
-<h1>Chat</h1>
 
-<div class="chat-form">
-  <div id="chat-area"></div>
-  
-  <form id="messageForm">
-    <label>Enter Message</label>
-    <textarea id="message"></textarea>
-    <br>
-    <input type="submit" value="Send Message">
-  </form>
+<form id="chat-signin">
+    <p id="error-message"></p>
+    <label for="chatUsername">Enter a username for the chat:</label>
+    <input type="text" id="chatUsername" name="chatUsername" required/>
+    <button>Submit</button>
+</form>
+
+<div id="chat-content-wrapper">
+  <div class="chat">
+    <div id="users"></div></br>
+    <div id="chat-area"></div>
+    
+    <form id="messageForm">
+      <label for="message">Enter Message</label>
+      <textarea id="message" required></textarea><br>
+      <input type="submit" value="Send Message">
+    </form>
+
+  </div>
 </div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function(event) { 
-        //alert("hurrah");
+        /************* Sign In *************/
+        var $signInForm = $("#chat-signin");
+        var $errorMessage = $("#error-message"); 
+        var $chatUsername = $("#chatUsername");
+        var $chatContent = $("#chat-content-wrapper");
+        
+        $signInForm.submit(function(e) {
+          e.preventDefault();
+          socket.emit('new user', $chatUsername.val(), function(data) {
+            if(data) {
+              // username available
+              $signInForm.hide();
+              $chatContent.show();
+            } else {
+              $errorMessage.html("Username is already in use.");
+            }
+          });
+          $chatUsername.val('');
+        });
+        
+        
+        /************* Chat *************/
         var socket = io.connect(); 
         
         var $messageForm = $("#messageForm"); 
         var $message = $("#message"); 
         var $chat = $("#chat-area"); 
+        var $users = $("#users");
+        
+        // Updates users list as users join and leave
+        socket.on('update usernames', function(data) {
+          var length = data.length;
+          $users.html('');
+          $users.html('<h2>'+"Current Users: "+length+'</h2>');
+          $users.append('<ul id="username-list"></ul>');
+          
+          var $usernameList = $("#username-list");
+          for(var i = 0; i < length; i++) {
+            $usernameList.append('<li>'+data[i]+'</li>');
+          }
+        });
         
         $messageForm.submit(function(e) {
             e.preventDefault(); 
             socket.emit('send message', $message.val()); 
             $message.val(''); 
-        }); 
+        });
         
         socket.on('new message', function(data) {
-          console.log("here!!!!"); 
-          $chat.append('<div>' + data.msg + '</div>'); 
+          $chat.append('<div><b>'+data.username+':</b> '+data.msg + '</div>'); 
         }); 
         
     }); 

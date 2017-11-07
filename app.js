@@ -12,6 +12,18 @@ var chat = require('./routes/chat');
 
 var app = express();
 
+/********** Session Stuff **********/
+// https://github.com/expressjs/session
+var session = require('express-session');
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
+/***********************************/
+
 // view engine setup
 var hbs = require("express-handlebars");
 
@@ -54,5 +66,50 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+/******** Socket Io ********/ 
+var socket_io = require("socket.io");
+var io = socket_io();
+app.io = io;
+
+var connections = [];
+var usernames = [];
+
+io.on("connection", function(socket){
+  connections.push(socket);
+  
+  socket.on('new user', function(data, callback) {
+    if(usernames.indexOf(data) != -1) {
+      // Username taken
+      callback(false);
+    } else {
+      callback(true);
+      socket.username = data;
+      usernames.push(socket.username);
+      updateUsernames();
+    }
+  });
+  
+  socket.on("disconnect", function(data) {
+    connections.splice(connections.indexOf(socket), 1);
+    if(!socket.username) {
+      return;
+    } else {
+     usernames.splice(usernames.indexOf(socket.username), 1);
+     updateUsernames();
+    }
+  });
+  
+  socket.on('send message', function(data) {
+    console.log(data); 
+    io.sockets.emit('new message', {msg: data, username: socket.username}); 
+  });
+  
+  function updateUsernames() {
+    io.sockets.emit('update usernames', usernames);
+  }
+});
+/****** End Socket Io ******/ 
 
 module.exports = app;
