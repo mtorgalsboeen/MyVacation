@@ -25,6 +25,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function(event) { 
+        var socket = io.connect(); 
+      
         /************* Sign In *************/
         var $signInForm = $("#chat-signin");
         var $errorMessage = $("#error-message"); 
@@ -47,8 +49,6 @@
         
         
         /************* Chat *************/
-        var socket = io.connect(); 
-        
         var $messageForm = $("#messageForm"); 
         var $message = $("#message"); 
         var $chat = $("#chat-area"); 
@@ -74,7 +74,13 @@
         });
         
         socket.on('new message', function(data) {
-          $chat.append('<div><b>'+data.username+':</b> '+data.msg + '</div>'); 
+          if(!data.username) {
+            // username not found, sign in required
+            $signInForm.show();
+            $chatContent.hide();
+          } else {
+            $chat.append('<div><b>'+data.username+':</b> '+data.msg + '</div>'); 
+          }
         }); 
         
     }); 

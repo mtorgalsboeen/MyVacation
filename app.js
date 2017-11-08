@@ -12,6 +12,7 @@ var chat = require('./routes/chat');
 
 var app = express();
 
+
 /********** Session Stuff **********/
 // https://github.com/expressjs/session
 var session = require('express-session');
