@@ -2,24 +2,137 @@
 <script src="/socket.io/socket.io.js"></script>
 
 
-<form id="chat-signin">
-    <p id="error-message"></p>
-    <label for="chatUsername">Enter a username for the chat:</label>
-    <input type="text" id="chatUsername" name="chatUsername" required/>
-    <button>Submit</button>
+<style>
+  #chat-signin {
+    
+  }
+  
+  /* Chat Column display toggle (only used for this)*/
+  #chat-display {
+    display: none; 
+  }
+
+  /* Wrapper for chat column that sets up a grid system*/
+  #chat-wrapper {
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    
+    display: grid;                    /* This div will be displayed as a grid*/
+    grid-template-columns: 85% 15%;   /* The grid will have 2 columns (2 children: 85% width and 15% width)*/
+    grid-auto-rows: 100%;             /* The rows span the height of the page*/
+    
+    background-image: url("../img/background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+    padding: 10px;
+  }
+  
+  /* Chat Column (left column) : messages + form*/
+  #chat-area {
+    display: grid;                  /* This div will be displayed as a grid*/
+    grid-template-rows: 85% 15%;    /* The grid will have 2 rows (2 children: 85% height and 15% height)*/
+    grid-auto-columns: 100%;        /* The columns span the width of the parent*/
+    border: 1px solid black;
+  }
+  
+  /* Div Holding Chat Messages */
+  #chat-messages {
+    padding: 2em;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: rgba(255,255,255,.2);
+  }
+  
+  /* Individual Chat Message */
+  .chat-message {
+    margin: 8px 0px 8px 0px;
+    padding: 4px;
+    background-color: rgba(255,255,255,.7);
+    border-radius: 5px;
+    overflow-x:auto;
+    font-size: 18px;
+  }
+  
+  /* Chat message form (were messages are entered)*/
+  #chat-message-form {
+    display: grid;                    /* This div will be displayed as a grid*/
+    grid-template-columns: 85% 15%;   /* The grid will have 2 columns (2 children: 85% width and 15% width)*/
+    grid-auto-rows: 100%;             /* The rows span the height of the page*/
+    
+  }
+  
+  /* Div Wrappers for Message chat-message-form Elements*/
+  #chat-message-form-input,  #chat-message-form-button{
+    padding: 10px;
+  }
+  
+  /* Text Area in Message Form*/
+  #chat-message-form-input > textarea{
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Button in Message Form*/
+  #chat-message-form-button > input{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: white;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Users Column */
+  #chat-users {
+    border: 1px solid black;
+    border-left: none;
+    background-color: rgba(255,255,255,.7);
+  }
+  
+  #chat-users-list {
+    margin-left: 5%;
+    font-size: 18px;
+    font-weight: bold;
+    color: teal;
+  }
+  
+</style>
+
+<form class="form-inline" id="chat-signin">
+  <div class="form-group mx-sm-3">
+    <label for="chatUsername" class="form-label">Enter a username for the chat:</label>
+    <input type="text" class="form-control" id="chatUsername" name="chatUsername" required/>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <p id="error-message"></p>
 </form>
 
-<div id="chat-content-wrapper">
-  <div class="chat">
-    <div id="users"></div></br>
-    <div id="chat-area"></div>
+<div id="chat-display">
+  <div id="chat-wrapper">
     
-    <form id="messageForm">
-      <label for="message">Enter Message</label>
-      <textarea id="message" required></textarea><br>
-      <input type="submit" value="Send Message">
-    </form>
-
+    <div id="chat-area">
+      
+      <div id="chat-messages">
+        <h2 style="text-align:center; color:white;"><b>Chat</b></h2>
+        <hr style="border:solid 1px white">
+      </div>
+      
+      <div id="chat-message-form">
+        <div id="chat-message-form-input"><textarea id="message" placeholder="Enter Message" required></textarea></div>
+        <div id="chat-message-form-button"><input type="submit" value="Send Message"></div>
+      </div>
+      
+    </div>
+    
+    <div id="chat-users">
+      </br>
+      <h3 style="text-align:center;">Users:<span id="users-count"></span></h3>
+      <hr style="border:solid 1px black; width: 80%">
+      <ul id="chat-users-list"></ul>
+    </div>
   </div>
 </div>
 
@@ -31,7 +144,7 @@
         var $signInForm = $("#chat-signin");
         var $errorMessage = $("#error-message"); 
         var $chatUsername = $("#chatUsername");
-        var $chatContent = $("#chat-content-wrapper");
+        var $chatDisplay = $("#chat-display");
         
         $signInForm.submit(function(e) {
           e.preventDefault();
@@ -39,7 +152,7 @@
             if(data) {
               // username available
               $signInForm.hide();
-              $chatContent.show();
+              $chatDisplay.show();
             } else {
               $errorMessage.html("Username is already in use.");
             }
@@ -49,37 +162,47 @@
         
         
         /************* Chat *************/
-        var $messageForm = $("#messageForm"); 
+        var $messageFormButton = $("#chat-message-form-button"); 
         var $message = $("#message"); 
-        var $chat = $("#chat-area"); 
+        var $chat = $("#chat-messages"); 
         var $users = $("#users");
         
         // Updates users list as users join and leave
         socket.on('update usernames', function(data) {
           var length = data.length;
           $users.html('');
-          $users.html('<h2>'+"Current Users: "+length+'</h2>');
-          $users.append('<ul id="username-list"></ul>');
+          var numUsers = $("#users-count");
+          numUsers.html(length);
           
-          var $usernameList = $("#username-list");
+          var $usernameList = $("#chat-users-list");
+          $usernameList.html('');
           for(var i = 0; i < length; i++) {
             $usernameList.append('<li>'+data[i]+'</li>');
           }
         });
         
-        $messageForm.submit(function(e) {
+        $messageFormButton.click(function(e) {
+          // Sanitize
+          $message.val(escape($message.val().trim()));
+          
             e.preventDefault(); 
-            socket.emit('send message', $message.val()); 
-            $message.val(''); 
+            if($message.val() === "") {
+              // Empty Message or just spaces
+            } else {
+              socket.emit('send message', $message.val()); 
+              $message.val(''); 
+            }
         });
+        
+        
         
         socket.on('new message', function(data) {
           if(!data.username) {
             // username not found, sign in required
             $signInForm.show();
-            $chatContent.hide();
+            $chatDisplay.hide();
           } else {
-            $chat.append('<div><b>'+data.username+':</b> '+data.msg + '</div>'); 
+            $chat.append('<div class="chat-message"><b>'+data.username+':</b> '+data.msg + '</div>'); 
           }
         }); 
         
