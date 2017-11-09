@@ -1,32 +1,3 @@
-
-#chat-signin {
-  
-}
-
-/* Chat Column display toggle (only used for this)*/
-#chat-display {
-  display: none; 
-}
-
-/* Wrapper for chat column that sets up a grid system*/
-#chat-wrapper {
-  top: 0px;
-  left: 0px;
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  
-  display: grid;                    /* This div will be displayed as a grid*/
-  grid-template-columns: 85% 15%;   /* The grid will have 2 columns (2 children: 85% width and 15% width)*/
-  grid-auto-rows: 100%;             /* The rows span the height of the page*/
-  
-  background-image: url("../img/background.jpg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  
-  padding: 10px;
-}
-
 /* Chat Column (left column) : messages + form*/
 #chat-area {
   display: grid;                  /* This div will be displayed as a grid*/
@@ -35,12 +6,9 @@
   border: 1px solid black;
 }
 
-/* Div Holding Chat Messages */
-#chat-messages {
-  padding: 2em;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: rgba(255,255,255,.2);
+/* Chat Column display toggle (only used for this)*/
+#chat-display {
+  display: none; 
 }
 
 /* Individual Chat Message */
@@ -66,12 +34,6 @@
   padding: 10px;
 }
 
-/* Text Area in Message Form*/
-#chat-message-form-input > textarea{
-  width: 100%;
-  height: 100%;
-}
-
 /* Button in Message Form*/
 #chat-message-form-button > input{
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
@@ -81,11 +43,33 @@
   height: 100%;
 }
 
+/* Text Area in Message Form*/
+#chat-message-form-input > textarea{
+  width: 100%;
+  height: 100%;
+}
+
+/* Div Holding Chat Messages */
+#chat-messages {
+  padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: rgba(255,255,255,.2);
+}
+
+#chat-signin label{
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
 /* Users Column */
 #chat-users {
   border: 1px solid black;
   border-left: none;
   background-color: rgba(255,255,255,.7);
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 #chat-users-list {
@@ -93,4 +77,29 @@
   font-size: 18px;
   font-weight: bold;
   color: teal;
+}
+
+/* Wrapper for chat column that sets up a grid system*/
+#chat-wrapper {
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  
+  display: grid;                    /* This div will be displayed as a grid*/
+  grid-template-columns: 85% 15%;   /* The grid will have 2 columns (2 children: 85% width and 15% width)*/
+  grid-auto-rows: 100%;             /* The rows span the height of the page*/
+  
+  background-image: url("../img/background.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  
+  padding: 10px;
+}
+
+#error-message {
+  color: red;
+  margin: 5px 5px 5px 10px;
+  font-size: 18px;
 }

@@ -12,6 +12,8 @@ var chat = require('./routes/chat');
 
 var app = express();
 
+// set static scripts path (one in node_modules)
+app.use('/scripts', express.static(__dirname + '/node_modules'));
 
 /********** Session Stuff **********/
 // https://github.com/expressjs/session

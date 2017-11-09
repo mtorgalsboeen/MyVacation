@@ -2,12 +2,12 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <form class="form-inline" id="chat-signin">
-  <div class="form-group mx-sm-3">
-    <label for="chatUsername" class="form-label">Enter a username for the chat:</label>
-    <input type="text" class="form-control" id="chatUsername" name="chatUsername" required/>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-  <p id="error-message"></p>
+    <div class="form-group mx-sm-3">
+      <label for="chatUsername">Chat Username:</label>
+      <input type="text" class="form-control" id="chatUsername" name="chatUsername" required/>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign In</button>
+    <p id="error-message"></p>
 </form>
 
 <div id="chat-display">
@@ -36,10 +36,11 @@
   </div>
 </div>
 
+
 <script>
     document.addEventListener("DOMContentLoaded", function(event) { 
         var socket = io.connect(); 
-      
+        
         /************* Sign In *************/
         var $signInForm = $("#chat-signin");
         var $errorMessage = $("#error-message"); 
@@ -48,16 +49,25 @@
         
         $signInForm.submit(function(e) {
           e.preventDefault();
-          socket.emit('new user', $chatUsername.val(), function(data) {
-            if(data) {
-              // username available
-              $signInForm.hide();
-              $chatDisplay.show();
-            } else {
-              $errorMessage.html("Username is already in use.");
-            }
-          });
+          
+          // Sanitize
+          $chatUsername.val(validator.unescape($chatUsername.val().trim()));
+          
+          if($chatUsername.val() === "") {
+            // Empty Message or just spaces
+          } else {
+            socket.emit('new user', $chatUsername.val(), function(data) {
+              if(data) {
+                // username available
+                $signInForm.hide();
+                $chatDisplay.show();
+              } else {
+                $errorMessage.html("Username is already in use.");
+              }
+            });
           $chatUsername.val('');
+          }
+          
         });
         
         
@@ -82,8 +92,9 @@
         });
         
         $messageFormButton.click(function(e) {
+          
           // Sanitize
-          $message.val(escape($message.val().trim()));
+          $message.val(validator.unescape($message.val().trim()));
           
             e.preventDefault(); 
             if($message.val() === "") {
