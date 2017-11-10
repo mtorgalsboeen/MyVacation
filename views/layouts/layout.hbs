@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         
+        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Poiret+One" rel="stylesheet">
         {{!--For string validation and sanitization https://github.com/chriso/validator.js--}}
         <script type="text/javascript" src="/scripts/validator/validator.min.js"></script>
         
@@ -12,6 +13,17 @@
         <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
     </head>
     <body>
+        <div class="header">
+            <h1 class="title">MyVacation</h1>
+            <ul class="menuBar">
+                <li class="menuOp curPage">Vacations</li>
+                <li class="menuOp">Favorites</li>
+                <li class="menuOp">Entertainment</li>
+                <li class="menuOp">Log Out</li>
+                
+            </ul>
+        </div>
+        
         {{{ body }}}
     </body>
 </html>
