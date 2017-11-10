@@ -51,7 +51,7 @@
           e.preventDefault();
           
           // Sanitize
-          $chatUsername.val(validator.unescape($chatUsername.val().trim()));
+          $chatUsername.val(validator.escape($chatUsername.val().trim()));
           
           if($chatUsername.val() === "") {
             // Empty Message or just spaces
@@ -94,7 +94,7 @@
         $messageFormButton.click(function(e) {
           
           // Sanitize
-          $message.val(validator.unescape($message.val().trim()));
+          $message.val(validator.escape($message.val().trim()));
           
             e.preventDefault(); 
             if($message.val() === "") {
