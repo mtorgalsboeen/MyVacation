@@ -5,17 +5,24 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+/************ Database Setup ************/
+var db = require('./routes/model/db');
+/****************************************/
+
+/************ Controllers ************/
 var index = require('./routes/index');
 var users = require('./routes/users');
 var test_db = require('./routes/test_db');
 var chat = require('./routes/chat');
+/*************************************/
 
 var app = express();
 
 // set static scripts path (one in node_modules)
 app.use('/scripts', express.static(__dirname + '/node_modules'));
 
-/********** Session Stuff **********/
+
+/********** Session Setup **********/
 // https://github.com/expressjs/session
 var session = require('express-session');
 app.set('trust proxy', 1) // trust first proxy
@@ -27,17 +34,18 @@ app.use(session({
 }));
 /***********************************/
 
-// view engine setup
-var hbs = require("express-handlebars");
 
+/********** View Engine Setup **********/
+var hbs = require("express-handlebars");
 app.engine('hbs', hbs({
     extname: 'hbs',
     defaultLayout: 'layout',
     layoutsDir: __dirname + '/views/layouts/'
 }));
-
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
+/***************************************/
+
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -48,11 +56,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/test_db', test_db);
 app.use('/chat', chat);
 
 // catch 404 and forward to error handler
+// app.use(function(req,res,next) is the general format for
+//    making something happen on all requests
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
