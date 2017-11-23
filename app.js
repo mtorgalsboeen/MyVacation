@@ -9,11 +9,12 @@ var bodyParser = require('body-parser');
 var db = require('./routes/model/db');
 /****************************************/
 
+
 /************ Controllers ************/
 var index = require('./routes/index');
-var users = require('./routes/users');
 var test_db = require('./routes/test_db');
 var chat = require('./routes/chat');
+var login = require('./routes/login')
 /*************************************/
 
 var app = express();
@@ -21,16 +22,19 @@ var app = express();
 // set static scripts path (one in node_modules)
 app.use('/scripts', express.static(__dirname + '/node_modules'));
 
-
 /********** Session Setup **********/
 // https://github.com/expressjs/session
 var session = require('express-session');
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'keyboard cat',
+  name: 'MyVacation.sid',
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  saveUninitialized: false,
+  cookie: { 
+    secure: true,
+    sameSite: true
+  }
 }));
 /***********************************/
 
@@ -52,16 +56,43 @@ app.set('views', __dirname + '/views');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+/************* Login System *************/
+// Define login path
+app.use('/login', login);
+
+// General Request Middleware
+// If a session is not set, redirect to login page
+app.use(function(req,res,next) {
+  // Check if session is set
+  /***** Remove Later *****/
+  req.session.userToken = "TestUserToken1234";  // Should be set through the login page
+  /************************/
+  
+  if (req.session.userToken) { // User token is set in session
+    if (true) {  // Check if user token is authentic function(userToken)
+      next();
+    } else {  // User token was not authentic
+      // Redirect to login
+      res.redirect('/login');
+    }
+  } else {  // User token was not set
+    // Redirect to login
+    res.redirect('/login');
+  }
+});
+/*****************************************/
+
+/************ Routes ************/
 app.use('/', index);
 app.use('/test_db', test_db);
 app.use('/chat', chat);
+/********************************/
 
 // catch 404 and forward to error handler
-// app.use(function(req,res,next) is the general format for
-//    making something happen on all requests
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -76,7 +107,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error',{layout: 'plain', title: "Error", error: res.locals.message});
 });
 
 
@@ -114,7 +145,7 @@ io.on("connection", function(socket){
   });
   
   socket.on('send message', function(data) {
-    console.log(data); 
+    // console.log(data);
     io.sockets.emit('new message', {msg: data, username: socket.username}); 
   });
   

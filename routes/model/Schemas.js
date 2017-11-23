@@ -26,12 +26,13 @@ var Vacation = new Schema({
 });
 
 var User = new Schema({
-  userToken:  {
-      type: String,
-      required: true,
-      unique: true
-  },
-  vacations: [Vacation]
+    userId: ObjectId,
+    userToken:  {
+        type: String,
+        required: true,
+        unique: true
+    },
+    vacations: [Vacation]
 });
 
 

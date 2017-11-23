@@ -18,11 +18,20 @@
 
 <script>
     var jsonItems = '{{{items}}}';
-    let items = JSON.parse(jsonItems);
-    let div = document.getElementById("items")
-    for(let i = 0; i < items.length; i++) {
-        let newNode = document.createElement('p');
-        newNode.innerHTML = JSON.stringify(items[i]);
-        div.appendChild(newNode);
+    let div = document.getElementById("items");
+    if(jsonItems.length) {
+        // Check if it is a JSONArray or JSONObject (Display Purposes)
+        let items = JSON.parse(jsonItems);
+        if (Array.isArray(items)) {
+            for(let i = 0; i < items.length; i++) {
+                let newNode = document.createElement('p');
+                newNode.innerHTML = JSON.stringify(items[i]);
+                div.appendChild(newNode);
+            }
+        } else {
+            div.innerHTML = jsonItems;
+        }
+    } else {
+        div.innerHTML = "Nothing Here!";
     }
 </script>
