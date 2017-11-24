@@ -15,7 +15,8 @@ var ToDoList = new Schema({
 });
 
 var Location = new Schema({
-        locationId: {type: String, trim: true} // YELP API ID
+        locationId: ObjectId,
+        yelpApiId: {type: String, trim: true}
 });
 
 var Vacation = new Schema({

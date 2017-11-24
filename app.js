@@ -14,13 +14,17 @@ var db = require('./routes/model/db');
 var index = require('./routes/index');
 var test_db = require('./routes/test_db');
 var chat = require('./routes/chat');
-var login = require('./routes/login')
+var login = require('./routes/login');
+var users = require('./routes/users');
 /*************************************/
 
 var app = express();
 
 // set static scripts path (one in node_modules)
 app.use('/scripts', express.static(__dirname + '/node_modules'));
+
+// set statuc classes path
+app.use('/classes', express.static(__dirname + '/public/js/classes'));
 
 /********** Session Setup **********/
 // https://github.com/expressjs/session
@@ -60,36 +64,60 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-/************* Login System *************/
+/*********************** Login System ***********************/
 // Define login path
 app.use('/login', login);
 
 // General Request Middleware
-// If a session is not set, redirect to login page
+// If a session is not set, redirect to login page OR
+// If a user creation is being attempted, authenticate and continue
 app.use(function(req,res,next) {
-  // Check if session is set
   /***** Remove Later *****/
-  req.session.userToken = "TestUserToken1234";  // Should be set through the login page
+  // req.session.userToken = "TestUserToken1234";  // Should be set through the login page
   /************************/
   
+  /**** Check if a user creation is being attempted ****/
+  // Verify it is the /users/create path
+  var userCreation = (req.originalUrl === "/users/create"); 
+  // Verify it is a post request
+  userCreation = userCreation && (req.method === "POST");
+  // Verify there is a userToken being sent with the request
+  userCreation = userCreation && (req.body.userToken);
+  /*****************************************************/
+  
+  // Verify, Authenticate, and Re-route as Needed
   if (req.session.userToken) { // User token is set in session
-    if (true) {  // Check if user token is authentic function(userToken)
-      next();
-    } else {  // User token was not authentic
-      // Redirect to login
-      res.redirect('/login');
-    }
+      if (true) {  // Check if user token is authentic function(userToken)
+          next();
+      } else {  // User token was not authentic
+          res.redirect('/login');
+      }
+  } else if (userCreation) {  // User creation
+      // Authenticate user token with google
+      if(true) {
+          next();
+      } else {
+          res.render('login', { error: "Failed Google Authentication" });
+      }
   } else {  // User token was not set
-    // Redirect to login
-    res.redirect('/login');
+      res.redirect('/login');
   }
 });
-/*****************************************/
+/***********************************************************/
+
 
 /************ Routes ************/
 app.use('/', index);
 app.use('/test_db', test_db);
 app.use('/chat', chat);
+app.use('/users', users);
+
+
+// Logout
+app.get('/logout', function(req, res) {
+  req.session.destroy();
+  res.redirect('/login');
+});
 /********************************/
 
 // catch 404 and forward to error handler

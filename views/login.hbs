@@ -1,1 +1,7 @@
-<h1>Login Page Goes Here</h1>
+<form class="form-inline" id="user-creation-form" action="/users/create" method="POST">
+<div class="form-group mx-sm-3">
+    <label for="userToken">User Token: (Note: This Will Be Replaced With Google Authentication)&nbsp;</label>
+    <input type="text" class="form-control" id="userToken" name="userToken" required/>
+</div>
+<button type="submit" class="btn btn-primary">Login / Create</button>
+<p class="error-message">{{error}}</p>
