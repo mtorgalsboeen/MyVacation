@@ -58,5 +58,32 @@ class Vacation{
 
     /* Methods */
     
-    
+    // Create a vacation for the current user, requires callback and vacationTitle
+    // Sends back an Vacation object which was added to the database
+    static createVacation(callback, vacationTitle, locations=[], toDoLists=[]) {
+        var url = window.location.origin+"/vacations/create";
+        var dataToSend = {
+            'vacationTitle' : vacationTitle,
+            'locations' : locations,
+            'toDoLists' : toDoLists
+        };
+        
+        //Ajax request to create new vacation for current user
+        $.ajax({
+            url: '/vacations/create',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(dataToSend)
+        })
+        .done(function(response) {
+            callback(response);
+        })
+        .fail(function(err) {
+            console.log("Ajax Error");
+        })
+        .always(function() {
+            console.log( "Completed" );
+        });
+        
+    }
 }    

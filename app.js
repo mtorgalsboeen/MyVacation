@@ -16,6 +16,7 @@ var test_db = require('./routes/test_db');
 var chat = require('./routes/chat');
 var login = require('./routes/login');
 var users = require('./routes/users');
+var vacations = require('./routes/vacations')
 /*************************************/
 
 var app = express();
@@ -111,7 +112,7 @@ app.use('/', index);
 app.use('/test_db', test_db);
 app.use('/chat', chat);
 app.use('/users', users);
-
+app.use('/vacations', vacations);
 
 // Logout
 app.get('/logout', function(req, res) {

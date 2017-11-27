@@ -30,8 +30,6 @@
             }
         } else {
             div.innerHTML = jsonItems;
-            let user = new User(JSON.parse(jsonItems));
-            console.log(user.getVacationByIndex(0));
         }
     } else {
         div.innerHTML = "Nothing Here!";
