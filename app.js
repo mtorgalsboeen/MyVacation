@@ -73,9 +73,6 @@ app.use('/login', login);
 // If a session is not set, redirect to login page OR
 // If a user creation is being attempted, authenticate and continue
 app.use(function(req,res,next) {
-  /***** Remove Later *****/
-  // req.session.userToken = "TestUserToken1234";  // Should be set through the login page
-  /************************/
   
   /**** Check if a user creation is being attempted ****/
   // Verify it is the /users/create path

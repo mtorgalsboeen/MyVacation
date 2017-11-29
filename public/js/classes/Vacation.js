@@ -59,8 +59,11 @@ class Vacation{
     /* Methods */
     
     // Create a vacation for the current user, requires callback and vacationTitle
-    // Sends back an Vacation object which was added to the database
-    static createVacation(callback, vacationTitle, locations=[], toDoLists=[]) {
+    // 
+    static createVacation(vacationTitle, locations=[], toDoLists=[], callback) {
+        locations = (locations == null)? [] : locations; 
+        toDoLists = (toDoLists == null)? [] : toDoLists; 
+        
         var url = window.location.origin+"/vacations/create";
         var dataToSend = {
             'vacationTitle' : vacationTitle,
@@ -76,14 +79,84 @@ class Vacation{
             data: JSON.stringify(dataToSend)
         })
         .done(function(response) {
-            callback(response);
+            response=JSON.parse(response);
+            if(response.error) {
+                callback(response.error, {});
+            } else {
+                callback(null, new Vacation(response));
+            }
         })
         .fail(function(err) {
-            console.log("Ajax Error");
+            callback("Ajax error",{});
         })
         .always(function() {
-            console.log( "Completed" );
+            // console.log( "Completed" );
         });
         
+    }
+    
+    
+    static deleteVacation(vacationId, callback=null) {
+        var url = window.location.origin+"/vacations/delete";
+        var dataToSend = {
+            'vacationId' : vacationId
+        };
+        
+        //Ajax request to delete vacation for current user
+        $.ajax({
+            url: '/vacations/delete',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(dataToSend)
+        })
+        .done(function(response) {
+            if(callback !=null) {
+                response=JSON.parse(response);
+                if(response.error) {
+                    callback(response.error, {});
+                } else {
+                    callback(null, new Vacation(response));
+                }
+            }
+        })
+        .fail(function(err) {
+            if(callback!=null) {callback("Ajax error",{});}
+        })
+        .always(function() {
+            // console.log( "Completed" );
+        });
+    }
+    
+    
+    static updateVacation(vacationId, newVacationTitle, callback=null) {
+        var url = window.location.origin+"/vacations/delete";
+        var dataToSend = {
+            'vacationId' : vacationId,
+            'vacationTitle' : newVacationTitle
+        };
+        
+        //Ajax request to create update vacation for current user
+        $.ajax({
+            url: '/vacations/update',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(dataToSend)
+        })
+        .done(function(response) {
+            if(callback !=null) {
+                response=JSON.parse(response);
+                if(response.error) {
+                    callback(response.error, {});
+                } else {
+                    callback(null, new Vacation(response));
+                }
+            }
+        })
+        .fail(function(err) {
+            if(callback!=null) {callback("Ajax error",{});}
+        })
+        .always(function() {
+            // console.log( "Completed" );
+        });
     }
 }    
