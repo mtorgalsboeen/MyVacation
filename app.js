@@ -12,7 +12,6 @@ var db = require('./routes/model/db');
 
 /************ Controllers ************/
 var index = require('./routes/index');
-var test_db = require('./routes/test_db');
 var chat = require('./routes/chat');
 var login = require('./routes/login');
 var users = require('./routes/users');
@@ -57,7 +56,8 @@ app.set('views', __dirname + '/views');
 
 
 // uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public/img/', 'favicon.ico')));
+app.use(favicon(path.join(__dirname,'public/img/favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -106,7 +106,6 @@ app.use(function(req,res,next) {
 
 /************ Routes ************/
 app.use('/', index);
-app.use('/test_db', test_db);
 app.use('/chat', chat);
 app.use('/users', users);
 app.use('/vacations', vacations);
