@@ -56,10 +56,13 @@ class Vacation{
     }
 
 
-    /* Methods */
+    /********** Methods **********/
     
-    // Create a vacation for the current user, requires callback and vacationTitle
-    // 
+    /***** Static *****/
+    /*
+        Create a vacation for the current user (in session), requires callback and vacationTitle
+        Callback: function(err, vacation)
+    */
     static createVacation(vacationTitle, locations=[], toDoLists=[], callback) {
         locations = (locations == null)? [] : locations; 
         toDoLists = (toDoLists == null)? [] : toDoLists; 
@@ -95,7 +98,10 @@ class Vacation{
         
     }
     
-    
+    /*
+        Delete a vacation for the current user (in session), requires vacationId
+        Optional Callback: function(err, deletedVacation)
+    */
     static deleteVacation(vacationId, callback=null) {
         var url = window.location.origin+"/vacations/delete";
         var dataToSend = {
@@ -127,12 +133,21 @@ class Vacation{
         });
     }
     
-    
-    static updateVacation(vacationId, newVacationTitle, callback=null) {
-        var url = window.location.origin+"/vacations/delete";
+    /*
+        Set (overwrite) a vacation's data for the current user (in session)
+             requires vacationId and vacationTitle. locations and toDoLists default to []
+        Optional Callback: function(err, updatedVacation)
+    */
+    static setVacation(vacationId, vacationTitle, locations=[], toDoLists=[], callback=null) {
+        locations = (locations == null)? [] : locations; 
+        toDoLists = (toDoLists == null)? [] : toDoLists; 
+        
+        var url = window.location.origin+"/vacations/update";
         var dataToSend = {
             'vacationId' : vacationId,
-            'vacationTitle' : newVacationTitle
+            'vacationTitle' : vacationTitle,
+            'locations' : locations,
+            'toDoLists' : toDoLists
         };
         
         //Ajax request to create update vacation for current user
@@ -160,3 +175,17 @@ class Vacation{
         });
     }
 }    
+
+
+
+/***** Instance Methods *****/
+// Class.prototype.functionName defines a function for instances of the class
+
+// Push changes function updates the database with the current details in this vacation
+Vacation.prototype.pushChanges = function(callback=null) {
+    Vacation.setVacation(this.vacationId, this.vacationTitle, this.locations, this.toDoLists, function(err, vacation) {
+        if(callback != null) {
+            callback(err, vacation);
+        }
+    });
+};

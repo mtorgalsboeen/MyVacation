@@ -7,35 +7,47 @@ class User{
     
     constructor(user){
         this._userId = user._id;
-        this._userToken = user.userToken;
         this._vacations = user.vacations;
+        this._favorites = user.favorites;
     }
     
     
     /* Getters and Setters */
+    get favorites() {
+        var classFavorites = [];
+        for(var i = 0; i < this.favoritesLength; i++) {
+            classFavorites[i] = this.getFavoriteByIndex(i);
+        }
+        return classFavorites;
+    }
+    
+    get favoritesLength() {
+         return this._favorites.length;
+    }
     
     get userId() {
         return this._userId;
     }
     
-    get userToken() {
-        return this._userToken;
-    }
-    
     get vacations() {
-        return this._vacations;
+        var classVacations = [];
+        for(var i = 0; i < this.vacationsLength; i++) {
+            classVacations[i] = this.getVacationByIndex(i);
+        }
+        return classVacations;
     }
     
     get vacationsLength() {
         return this._vacations.length;
     }
     
-    set userId(id) {
-        this._userId = id;
+    
+    set favorites(favorites) {
+        this._favorites = favorites;
     }
     
-    set userToken(token) {
-        this._userToken = token;
+    set userId(id) {
+        this._userId = id;
     }
     
     set vacations(vacations) {
@@ -44,6 +56,26 @@ class User{
     
     
     /* Methods */
+    getFavoriteByIndex(index) {
+        if(this.favoritesLength < 1) {
+            return -1;  // No favorites to get
+        } else if (index-1 > this.favoritesLength) {
+            return -1;  // Out of bounds 
+        } else {
+            return new Location(this._favorites[index]);
+        }
+    }
+    
+    getFavoriteById(id) {
+        if(this.favoritesLength < 1) {
+            return -1;  // No Favorites to get
+        } else {
+            for(var i = 0; i < this.favoritesLength; i++) {
+                if(this._favorites[i]._id === id) { return new Location(this._favorites[i]); }
+            }
+            return -1; // Nothing found
+        }
+    }
     
     getVacationByIndex(index) {
         if(this.vacationsLength < 1) {
@@ -51,7 +83,7 @@ class User{
         } else if (index-1 > this.vacationsLength) {
             return -1;  // Out of bounds 
         } else {
-            return this._vacations[index];
+            return new Vacation(this._vacations[index]);
         }
     }
     
@@ -60,7 +92,7 @@ class User{
             return -1;  // No vacations to get
         } else {
             for(var i = 0; i < this.vacationsLength; i++) {
-                if(this._vacations[i]._id === id) { return this._vacations[i]; }
+                if(this._vacations[i]._id === id) { return new Vacation(this._vacations[i]); }
             }
             return -1; // Nothing found
         }

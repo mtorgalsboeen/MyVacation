@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var Vacation = mongoose.model('Vacation');
 
+var Vacation = mongoose.model('Vacation');
 var User = mongoose.model('User');
 
 
-
+/*
+    Create a vacation
+*/
 router.post('/create', function(req, res, next) {
     var newVacation = new Vacation({
         'vacationTitle' : req.body.vacationTitle,
@@ -34,6 +36,9 @@ router.post('/create', function(req, res, next) {
     });
 });
 
+/*
+    Delete a vacation
+*/
 router.post('/delete', function(req, res, next) {
     User.findOne({"userToken":req.session.userToken}).exec(function(err,user) {
         if(err) { 
@@ -66,6 +71,10 @@ router.post('/delete', function(req, res, next) {
     });
 });
 
+
+/*
+    Update a vacation (An overwrite update)
+*/
 router.post('/update', function(req, res, next) {
     User.findOne({"userToken":req.session.userToken}).exec(function(err,user) {
         if(err) { 
@@ -77,7 +86,11 @@ router.post('/update', function(req, res, next) {
             var vacation = user.vacations.id(req.body.vacationId);
             if(vacation != null) {   // If so, update and save
             
-                vacation.vacationTitle = req.body.vacationTitle; // update the vacation
+                // Set the vacation details
+                vacation.vacationTitle = req.body.vacationTitle; 
+                vacation.locations = req.body.locations;
+                vacation.toDoLists = req.body.toDoLists;
+                
                 user.save(function (err) {  // Save the changes 
                     if(err) {
                         res.send(JSON.stringify({

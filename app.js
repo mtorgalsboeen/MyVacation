@@ -55,8 +55,6 @@ app.set('views', __dirname + '/views');
 /***************************************/
 
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public/img/', 'favicon.ico')));
 app.use(favicon(path.join(__dirname,'public/img/favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
