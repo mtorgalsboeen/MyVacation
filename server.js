@@ -9,6 +9,18 @@ var path = require('path');
 var async = require('async');
 var socketio = require('socket.io');
 var express = require('express');
+var app = express();
+var port = 8080;
+
+var morgan = require('morgan');
+var bodyParser = require("body-parser");
+var methodOverride = require('method-override');
+var Yelp = require("yelp-api-v3");
+
+global.yelp = new Yelp({
+  app_id: 'MbIvSXea49hNLjOltto8fQ',
+  app_secret: 'u8MZcqH1I44frxrsPeemgksM8RnYCplcrsyBCHNRrEsqST0RGxOnKNNne3uhuyaF'
+})
 
 //
 // ## SimpleServer `SimpleServer(obj)`
