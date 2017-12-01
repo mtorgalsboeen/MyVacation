@@ -33,7 +33,8 @@ var User = new Schema({
         required: true,
         unique: true
     },
-    vacations: [Vacation]
+    vacations: [Vacation],
+    favorites: [Location]
 });
 
 

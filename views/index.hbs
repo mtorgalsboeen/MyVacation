@@ -4,3 +4,12 @@
 <form action="./chat" >
     <button> Go To Chat!</button>
 </form>
+
+
+
+<script>
+    var currentUser = new User({{{user}}});
+    for(var i = 0; i < currentUser.vacationsLength; i++) {
+        console.log(currentUser.getVacationByIndex(i));
+    }
+</script>

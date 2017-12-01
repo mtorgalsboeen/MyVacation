@@ -56,11 +56,17 @@ class Vacation{
     }
 
 
-    /* Methods */
+    /********** Methods **********/
     
-    // Create a vacation for the current user, requires callback and vacationTitle
-    // Sends back an Vacation object which was added to the database
-    static createVacation(callback, vacationTitle, locations=[], toDoLists=[]) {
+    /***** Static *****/
+    /*
+        Create a vacation for the current user (in session), requires callback and vacationTitle
+        Callback: function(err, vacation)
+    */
+    static createVacation(vacationTitle, locations=[], toDoLists=[], callback) {
+        locations = (locations == null)? [] : locations; 
+        toDoLists = (toDoLists == null)? [] : toDoLists; 
+        
         var url = window.location.origin+"/vacations/create";
         var dataToSend = {
             'vacationTitle' : vacationTitle,
@@ -76,14 +82,110 @@ class Vacation{
             data: JSON.stringify(dataToSend)
         })
         .done(function(response) {
-            callback(response);
+            response=JSON.parse(response);
+            if(response.error) {
+                callback(response.error, {});
+            } else {
+                callback(null, new Vacation(response));
+            }
         })
         .fail(function(err) {
-            console.log("Ajax Error");
+            callback("Ajax error",{});
         })
         .always(function() {
-            console.log( "Completed" );
+            // console.log( "Completed" );
         });
         
     }
+    
+    /*
+        Delete a vacation for the current user (in session), requires vacationId
+        Optional Callback: function(err, deletedVacation)
+    */
+    static deleteVacation(vacationId, callback=null) {
+        var url = window.location.origin+"/vacations/delete";
+        var dataToSend = {
+            'vacationId' : vacationId
+        };
+        
+        //Ajax request to delete vacation for current user
+        $.ajax({
+            url: '/vacations/delete',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(dataToSend)
+        })
+        .done(function(response) {
+            if(callback !=null) {
+                response=JSON.parse(response);
+                if(response.error) {
+                    callback(response.error, {});
+                } else {
+                    callback(null, new Vacation(response));
+                }
+            }
+        })
+        .fail(function(err) {
+            if(callback!=null) {callback("Ajax error",{});}
+        })
+        .always(function() {
+            // console.log( "Completed" );
+        });
+    }
+    
+    /*
+        Set (overwrite) a vacation's data for the current user (in session)
+             requires vacationId and vacationTitle. locations and toDoLists default to []
+        Optional Callback: function(err, updatedVacation)
+    */
+    static setVacation(vacationId, vacationTitle, locations=[], toDoLists=[], callback=null) {
+        locations = (locations == null)? [] : locations; 
+        toDoLists = (toDoLists == null)? [] : toDoLists; 
+        
+        var url = window.location.origin+"/vacations/update";
+        var dataToSend = {
+            'vacationId' : vacationId,
+            'vacationTitle' : vacationTitle,
+            'locations' : locations,
+            'toDoLists' : toDoLists
+        };
+        
+        //Ajax request to create update vacation for current user
+        $.ajax({
+            url: '/vacations/update',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(dataToSend)
+        })
+        .done(function(response) {
+            if(callback !=null) {
+                response=JSON.parse(response);
+                if(response.error) {
+                    callback(response.error, {});
+                } else {
+                    callback(null, new Vacation(response));
+                }
+            }
+        })
+        .fail(function(err) {
+            if(callback!=null) {callback("Ajax error",{});}
+        })
+        .always(function() {
+            // console.log( "Completed" );
+        });
+    }
 }    
+
+
+
+/***** Instance Methods *****/
+// Class.prototype.functionName defines a function for instances of the class
+
+// Push changes function updates the database with the current details in this vacation
+Vacation.prototype.pushChanges = function(callback=null) {
+    Vacation.setVacation(this.vacationId, this.vacationTitle, this.locations, this.toDoLists, function(err, vacation) {
+        if(callback != null) {
+            callback(err, vacation);
+        }
+    });
+};

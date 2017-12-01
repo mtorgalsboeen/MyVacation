@@ -7,7 +7,7 @@ var User = mongoose.model('User');
 
 // New User Creation
 router.post('/create', function(req, res, next) {
-    console.log("Reached User Creation Page");
+    // console.log("Reached User Creation Page");
     // Middleware has assured that user token is genuine, create the user
     
     // Check if user exists
@@ -18,7 +18,8 @@ router.post('/create', function(req, res, next) {
         } else {    // Otherwise create a new user and the set up the session
             var newUser = new User({
                 userToken: req.body.userToken,
-                vacations:[]
+                vacations:[],
+                favorites:[]
             });
             newUser.save(function(err) {
                 if(err) { 
