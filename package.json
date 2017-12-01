@@ -22,7 +22,8 @@
     "serve-favicon": "~2.4.5",
     "sinon": "^4.0.1",
     "socket.io": "^2.0.3",
-    "validator": "^9.1.1"
+    "validator": "^9.1.1",
+    "yelp-fusion": "^1.0.4"
   },
   "main": "app.js",
   "directories": {
