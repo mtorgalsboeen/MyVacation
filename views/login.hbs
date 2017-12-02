@@ -1,7 +1,95 @@
-<form class="form-inline" id="user-creation-form" action="/users/create" method="POST">
-<div class="form-group mx-sm-3">
-    <label for="userToken">User Token: (Note: This Will Be Replaced With Google Authentication)&nbsp;</label>
-    <input type="text" class="form-control" id="userToken" name="userToken" required/>
-</div>
-<button type="submit" class="btn btn-primary">Login / Create</button>
-<p class="error-message">{{error}}</p>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta name="google-site-verification" content="QUOpWQzzAI1d4mQ8O24Bc1Drq9ivUoj4oEtfWBtQgwM" />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> {{!-- Favicon --}}
+
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allura">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arizonia">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Artifika">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Coiny">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Courgette">
+    <link rel="stylesheet" href="/scripts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/user.css">
+</head>
+
+<body>
+    <div class="jumbotron hero" style="background-image:url(&quot;assets/img/maldives-1993704_1920.jpg&quot;);">
+        <div class="container">
+            <div class="row" style="height:379px;width:1174px;">
+                <div class="col-md-4 col-md-push-7 phone-preview" style="width:437px;">
+                    <div class="iphone-mockup"><img src="assets/img/traveling-agency-2960196_1920.png" class="device" style="width:282px;height:261px;margin:52px;background-color:rgba(255,255,255,0);color:rgba(85,85,85,0);padding:0px;"></div>
+                </div>
+                <div class="col-md-6 col-md-pull-3 get-it" style="height:132px;width:610px;">
+                    <h1 style="width:685px;height:121px;margin:-39px;font-family:Courgette, cursive;color:rgb(248,1,1);"><strong>Welcome to MyVacation</strong></h1>
+                    <center>
+                        <p style="font-size:31px;font-family:Courgette, cursive;background-color:rgba(185,184,191,0.39);height:103px;  width:568px;  margin-right:0px;margin-left:-15px;">Where planning your vacation is like taking a vacation. </p>
+                    </center>
+
+                    <button class="g-signin2" onclick="login()" data-theme="dark" style="margin-left: 215px;">Sign In With Google</button>
+
+                    <script>
+                        function login() {
+                            $.ajax({
+                                    url: '/googleSignInScreen',
+                                    method: 'GET',
+                                    contentType: 'application/json',
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    }
+                                })
+                                .done(function(response) {
+                                    // window.open(response, "Please Sign in With Google", "width=500px,height=700px");
+                                    // console.log(response);
+                                    window.location.href = response;
+                                })
+                                .fail(function(err) {
+                                    console.log("Ajax Error");
+                                })
+                                .always(function() {
+                                    // console.log( "Completed" );
+                                });
+                        }
+                    </script>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="testimonials">
+        <h2 class="text-center" style="height:-25px;background-color:#5fd6cf;color:rgb(249,248,248);font-family:Courgette, cursive;">Fantastic Features ! </h2>
+    </section>
+    <section class="features" style="background-color:rgba(238,245,244,0);height:227px;">
+        <div class="container">
+            <div class="row" style="margin:-48px;margin-top: -81px;width:1207px;padding:0px;">
+                <div class="col-md-6">
+                    <div class="row icon-features" style="color:rgb(14,14,14);width:1202px;">
+                        <div class="col-xs-4 icon-feature" style="width:405px;"><i class="glyphicon glyphicon-hourglass"></i>
+                            <p style="margin:3px;height:-109px;">Save Time</p>
+                            <P> Saves time looking for local restaurants and entertainment in the area.</P>
+                        </div>
+                        <div class="col-xs-4 icon-feature" style="width:405px;margin:-12px;"><i class="glyphicon glyphicon-sunglasses"></i>
+                            <p>Eassy to Use</p>
+                            <p>Simple layout to keep track of all vacations, entertainment you like, and to do lists.</p>
+                        </div>
+                        <div class="col-xs-4 icon-feature" style="width:405px;height:90px;margin:-8px;padding:6px;width:383px;"><i class="fa fa-calendar" style="font-size:60px;"></i>
+                            <p style="height:30px;margin:4px;">Planning </p>
+                            <p>Plan small trips, hiking, day in the city, or international trips, family trips.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="site-footer"></footer>
+</body>
+
+</html>

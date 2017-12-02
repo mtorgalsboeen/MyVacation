@@ -1,9 +1,7 @@
-<h1>{{ title }}</h1>
-<p>Welcome to {{title}}!</p>
+<script> $("#header-vacations-tab").addClass("curPage");</script>
 
-<form action="./chat" >
-    <button> Go To Chat!</button>
-</form>
+{{!-- Chat Button --}}
+<form action="./chat" ><button> Go To Chat!</button></form>
 
 
 
@@ -12,4 +10,20 @@
     for(var i = 0; i < currentUser.vacationsLength; i++) {
         console.log(currentUser.getVacationByIndex(i));
     }
+    
+    Vacation.createVacation("New Vacation", null, null, function(err, vacation){
+       if(err) {
+           
+       } else {
+          vacation.vacationTitle = "New Updated Vacation Title";
+          vacation.pushChanges(function(err, vacation) {
+              if(err){
+                  
+              } else {
+                  vacation.
+              }
+          });
+       }
+    });
+    
 </script>

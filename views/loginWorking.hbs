@@ -29,15 +29,29 @@
         <script type="text/javascript" src="/scripts/validator/validator.min.js"></script>
     </head>
     <body>
-        <div class="header">
-            <h1 class="title">MyVacation</h1>
-            <ul class="menuBar">
-                <li id="header-vacations-tab" class="menuOp">Vacations</li>
-                <li id="header-favorites-tab" class="menuOp">Favorites</li>
-                <li id="header-entertainment-tab" class="menuOp">Entertainment</li>
-                <li class="menuOp"><a href="/logout">Log Out</a></li>
-            </ul>
-        </div>
-        {{{ body }}}
+        <button onclick="login()">Sign in with google</button>
     </body>
+    <script>
+        function login() {
+          $.ajax({
+            url: '/googleSignInScreen',
+            method: 'GET',
+            contentType: 'application/json',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .done(function(response) {
+            // window.open(response, "Please Sign in With Google", "width=500px,height=700px");
+            // console.log(response);
+            window.location.href = response;
+          })
+          .fail(function(err) {
+            console.log("Ajax Error");
+          })
+          .always(function() {
+            // console.log( "Completed" );
+          });
+        }
+    </script>
 </html>

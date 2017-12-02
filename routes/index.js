@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
                 error: "Error finding user"
             })); 
         } else {
-            user.userToken = null;
+            // Do not pass the userToken to client side (security)
             res.render('index', {
                 title: 'MyVacation',
                 user: JSON.stringify(user)
