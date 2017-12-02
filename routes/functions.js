@@ -48,8 +48,8 @@ var verifyPassword = function(password, combined) {
  */
 var createUserToken = function(username) {
     var text = username;
-    var hash = crypto.HmacSHA256(text, process.env.SESSION_SECRET);
-    var hashInBase64 = crypto.enc.Base64.stringify(hash);
+    var hash = cryptoJS.HmacSHA256(text, process.env.SESSION_SECRET);
+    var hashInBase64 = cryptoJS.enc.Base64.stringify(hash);
     return hashInBase64+""+Date.now();  // Date.now() is arbitrary, but should confirm no duplicates
 }
 

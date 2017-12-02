@@ -28,11 +28,9 @@ var Vacation = new Schema({
 
 var User = new Schema({
     userId: ObjectId,
-    login: {    // Ommit this when sending to client
-        username: {type: String, required: true, unique: true},
-        password: {type: String, required: true, unique: true},
-        userToken:  {type: String, required: true, unique: true}
-    },
+    username: {type: String, required: true},
+    password: {type: String, required: true},
+    userToken:  {type: String, required: true},
     vacations: [Vacation],
     favorites: [Location]
 });

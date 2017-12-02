@@ -5,7 +5,7 @@ var User = mongoose.model('User');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    User.findOne({"login.userToken":req.session.userToken}).exec(function(err,user) {
+    User.findOne({"userToken":req.session.userToken}).exec(function(err,user) {
         if(err) { 
             res.send(JSON.stringify({
                 error: "Error finding user"

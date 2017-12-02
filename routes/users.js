@@ -30,7 +30,7 @@ router.post('/create', function(req, res) {
     console.log("Username: " + username + ", Password: " + password);
     
     // Check if user exists
-    User.findOne({ 'login.username': username }).exec(function(err, user) {
+    User.findOne({ 'username': username }).exec(function(err, user) {
         if (user != null) { // If this user exists in the database, error
             res.send(JSON.stringify({
                 error: "The username supplied already exists in out database"
@@ -42,22 +42,23 @@ router.post('/create', function(req, res) {
 
         // Username is not taken in database
         var newUser = new User({
-            login: {
-                username: username,
-                password: hashedPassword,
-                userToken: createUserToken(username)
-            },
+            username: username,
+            password: hashedPassword,
+            userToken: createUserToken(username),
             vacations: [],
             favorites: []
         });
+        console.log(JSON.stringify(newUser));
+        
         newUser.save(function(err) {
             if (err) {
+                console.log(err);
                 res.send(JSON.stringify({
                     error: "Error creating user: saving user failed"
                 }));
             }
             else {
-                req.session.userToken = newUser.login.userToken;
+                req.session.userToken = newUser.userToken;
                 console.log("User created, login successful");
                 res.send(JSON.stringify({
                     status: "User created, login successful"
@@ -82,13 +83,13 @@ router.post('/login', function(req, res) {
     }
 
     // Check if user exists
-    User.findOne({ 'login.username': username }).exec(function(err, user) {
+    User.findOne({ 'username': username }).exec(function(err, user) {
         if (user != null) { // If this user exists in the database, set up the session
             // verify password
-            var isequal = verifyPassword(password, user.login.password);
+            var isequal = verifyPassword(password, user.password);
 
             if (isequal) { // The password was correct
-                req.session.userToken = user.login.userToken;
+                req.session.userToken = user.userToken;
                 console.log("User login successful");
                 res.send(JSON.stringify({
                     success: "Login Successful"
