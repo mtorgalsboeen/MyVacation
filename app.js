@@ -85,7 +85,23 @@ var clientId = process.env.GOOGLE_CLIENT_ID;
  * CHANGE THIS TO YOUR LOCAL URL
 */
 /***********************************/
-var redirectUrl = "https://myvacation-cwilliams4.c9users.io/oauthcallback";
+//Chris LOCAL URL
+//var redirectUrl = "https://myvacation-cwilliams4.c9users.io/oauthcallback";
+/***********************************/
+
+/***********************************/
+// Sarah LOCAL URL
+var redirectUrl = "https://my-vacation-sarah-villegas.c9users.io/oauthcallback";
+/***********************************/
+
+/***********************************/
+// Thalia LOCAL URL
+//var redirectUrl = "https://myvaction-thaliav.c9users.io/oauthcallback";
+/***********************************/
+
+/***********************************/
+// Mathias LOCAL URL
+//var redirectUrl = "https://ide.c9.io/mtorgalsboeen/myvacationyelpoauthcallback";
 /***********************************/
 
 
