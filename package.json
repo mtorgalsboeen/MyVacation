@@ -18,6 +18,7 @@
     "font-awesome": "^4.7.0",
     "google-auth-library": "^0.12.0",
     "googleapis": "^23.0.0",
+    "method-override": "^2.3.10",
     "mocha": "^4.0.1",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.4",
@@ -27,6 +28,8 @@
     "socket.io": "^2.0.3",
     "validator": "^9.1.1",
     "xmlhttprequest": "^1.8.0"
+    "yelp-api-v3": "^1.5.0",
+    "yelp-fusion": "^1.0.4"
   },
   "main": "app.js",
   "directories": {
