@@ -42,9 +42,9 @@ router.post('/create', function(req, res, next) {
 router.post('/delete', function(req, res, next) {
     User.findOne({"userToken":req.session.userToken}).exec(function(err,user) {
         if(err) { 
-            res.send({
+            res.send(JSON.stringify({
                 error: "Error finding user"
-            }); 
+            })); 
         } else {
             // We have a user, check if there is a vacation with supplied id
             var vacation = user.vacations.id(req.body.vacationId);
