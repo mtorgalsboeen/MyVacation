@@ -19,6 +19,8 @@ var login = require('./routes/login');
 var users = require('./routes/users');
 var vacations = require('./routes/vacations');
 var mange = require('./routes/mange');
+
+var testDB = require('./routes/testDB');
 /*************************************/
 
 var app = express();
@@ -132,6 +134,7 @@ app.use('/', index);
 app.use('/chat', chat);
 app.use('/vacations', vacations);
 app.use('/mange', mange);
+app.use('/testDB', testDB);
 /********************************/
 
 // catch 404 and forward to error handler

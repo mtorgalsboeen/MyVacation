@@ -1,0 +1,10 @@
+<div id="results"></div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+            var $resultsDiv = $("#results");
+            var user = new User({{{user}}});
+            $resultsDiv.html(JSON.stringify(user));
+    });
+</script>
