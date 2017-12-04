@@ -68,7 +68,9 @@ var sanitizeUser = function(user) {
 }
 
 var isValidInput = function(username) {
-    return /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){5,20}[a-zA-Z0-9]$/.test(username);
+/*    return /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){5,20}[a-zA-Z0-9]$/.test(username);
+*/
+    return true;
 }
 
 module.exports = {
