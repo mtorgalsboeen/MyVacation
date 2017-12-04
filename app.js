@@ -18,9 +18,8 @@ var chat = require('./routes/chat');
 var login = require('./routes/login');
 var users = require('./routes/users');
 var vacations = require('./routes/vacations');
-var mange = require('./routes/mange');
-
-var testDB = require('./routes/testDB');
+var manage = require('./routes/manage');
+var entertainment = require('./app/routes.js');
 /*************************************/
 
 var app = express();
@@ -133,8 +132,8 @@ app.use('/users', users);
 app.use('/', index);
 app.use('/chat', chat);
 app.use('/vacations', vacations);
-app.use('/mange', mange);
-app.use('/testDB', testDB);
+app.use('/manage', manage);
+app.use('/entertainment', entertainment);
 /********************************/
 
 // catch 404 and forward to error handler

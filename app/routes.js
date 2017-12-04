@@ -1,6 +1,10 @@
+var express = require('express');
+var router = express.Router();
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
  module.exports = function(app) {
 
-	 app.post("/getInfo",function(req,res){
+	 router.post("/getInfo",function(req,res){
 	    // console.log("Get info",req.body)
 
 	    // yelp.search({term: 'food', location: '90210', price: '1,2,3', limit: 10})
