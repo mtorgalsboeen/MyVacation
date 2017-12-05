@@ -27,8 +27,6 @@ router.post('/create', function(req, res) {
         return;
     }
     
-    console.log("Username: " + username + ", Password: " + password);
-    
     // Check if user exists
     User.findOne({ 'username': username }).exec(function(err, user) {
         if (user != null) { // If this user exists in the database, error

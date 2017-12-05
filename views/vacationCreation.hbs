@@ -1,0 +1,64 @@
+<style>
+    #create-vacation-fieldset {
+        width: 60%;
+        margin: auto;
+        margin-top: 3%;
+        padding: 3%;
+        border: 1px solid grey;
+        border-top: none;
+        border-radius: 5px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    #create-vacation-fieldset>legend {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    #create-vacation-form-btns {
+        text-align: right;
+    }
+</style>
+
+<fieldset id="create-vacation-fieldset">
+    <legend>Create Vacation</legend>
+    <form id="create-vacation-form">
+        <div class="form-group">
+            <label for="vacationTitle">Title *</label>
+            <input type="text" class="form-control" id="vacationTitle" placeholder="Ex: My First Vacation" required>
+        </div>
+        </div>
+        <div class="form-group">
+            <label for="vacationDescription">Description</label>
+            <textarea class="form-control" id="vacationDescription" rows="3" placeholder=". . . ."></textarea>
+        </div>
+        <div id="create-vacation-form-btns" class="form-group">
+            <input type=button value="Cancel">
+            <input type="Submit" value="Submit">
+        </div>
+    </form>
+</fieldset>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        // Add class to current tab
+        $("#header-vacations-tab").addClass("curPage");
+
+        var createVacation = $("#create-vacation-form");
+        var vacationTitle = $("#vacationTitle");
+        var vacationDescription = $("#vacationDescription");
+
+        createVacation.submit(function(e) {
+            e.preventDefault();
+            Vacation.createVacation(vacationTitle.val(), vacationDescription.val(), null, null, function(err, vacation) {
+                if(err) {
+                    alert(err);
+                } else {
+                    window.location.href="/vacations/"+vacation.vacationId;
+                }
+            });
+        });
+    });
+</script>

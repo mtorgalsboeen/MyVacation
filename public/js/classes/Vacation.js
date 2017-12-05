@@ -8,6 +8,7 @@ class Vacation{
     constructor(vacation){
         this._vacationId = vacation._id;
         this._vacationTitle = vacation.vacationTitle;
+        this._vacationDescription = vacation.vacationDescription;
         this._locations = vacation.locations;
         this._toDoLists = vacation.toDoLists;
     }
@@ -21,6 +22,10 @@ class Vacation{
     
     get vacationTitle() {
         return this._vacationTitle;
+    }
+    
+    get vacationDescription() {
+        return this._vacationDescription;
     }
     
     get locations() {
@@ -47,6 +52,10 @@ class Vacation{
         this._vacationTitle = vacationTitle;
     }
     
+    set vacationDescription(vacationDescription) {
+        this._vacationDescription = vacationDescription;
+    }
+    
     set locations(locations) {
         this._locations = locations;
     }
@@ -63,13 +72,15 @@ class Vacation{
         Create a vacation for the current user (in session), requires callback and vacationTitle
         Callback: function(err, vacation)
     */
-    static createVacation(vacationTitle, locations=[], toDoLists=[], callback) {
+    static createVacation(vacationTitle, vacationDescription=null, locations=[], toDoLists=[], callback) {
+        vacationDescription = (vacationDescription==null)? "" : vacationDescription;
         locations = (locations == null)? [] : locations; 
         toDoLists = (toDoLists == null)? [] : toDoLists; 
         
         var url = window.location.origin+"/vacations/create";
         var dataToSend = {
             'vacationTitle' : vacationTitle,
+            'vacationDescription' : vacationDescription,
             'locations' : locations,
             'toDoLists' : toDoLists
         };
@@ -139,6 +150,7 @@ class Vacation{
         Optional Callback: function(err, updatedVacation)
     */
     static setVacation(vacationId, vacationTitle, locations=[], toDoLists=[], callback=null) {
+        vacationDescription = (vacationDescription==null)? "" : vacationDescription;
         locations = (locations == null)? [] : locations; 
         toDoLists = (toDoLists == null)? [] : toDoLists; 
         
@@ -146,6 +158,7 @@ class Vacation{
         var dataToSend = {
             'vacationId' : vacationId,
             'vacationTitle' : vacationTitle,
+            'vacationDescription' : vacationDescription,
             'locations' : locations,
             'toDoLists' : toDoLists
         };
@@ -183,7 +196,7 @@ class Vacation{
 
 // Push changes function updates the database with the current details in this vacation
 Vacation.prototype.pushChanges = function(callback=null) {
-    Vacation.setVacation(this.vacationId, this.vacationTitle, this.locations, this.toDoLists, function(err, vacation) {
+    Vacation.setVacation(this.vacationId, this.vacationDescription, this.vacationTitle, this.locations, this.toDoLists, function(err, vacation) {
         if(callback != null) {
             callback(err, vacation);
         }

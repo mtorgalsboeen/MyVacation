@@ -1,409 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
- 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script|Poiret+One">
-  <link href="/stylesheets/one-page-wonder.css" rel="stylesheet">
 
-  <link rel="shortcut icon" href="favicon" type="image/x-icon"> {{!-- Import Jquery --}}
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  {{!-- Import Bootstrap --}}
-{{!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> {{!-------- Extras --------}} {{!-- String validation and sanitization https://github.com/chriso/validator.js --}}  <script type="text/javascript" src="/scripts/validator/validator.min.js"></script>
+    <link href="'/stylesheets/one-page-wonder.css" rel="stylesheet">
 
-  <style>
-    
-      h1{
-  
-      font-family: 'Dancing Script', cursive;
-      font-size: 50px;
-      padding: 20px;
-    }
-  
-    /* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-      border-color: #2222224f;
-    }
-    .navbar-inverse{
-      border-color: #33333308; 
-    }
-    
-    /* Full-width input fields */
-    input[type=text], input[type=password] {
-        width: 100%;
-        padding: 12px 20px;
-        display: inline-block;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-    }
-    
-    /* Set a style for all buttons */
-    button {
+    <link rel="shortcut icon" href="favicon" type="image/x-icon"> {{!-- Import Jquery --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    {{!-- Import Bootstrap --}} {{!--
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> {{!-------- Extras --------}} {{!-- String validation and sanitization https://github.com/chriso/validator.js --}}
+    <script type="text/javascript" src="/scripts/validator/validator.min.js"></script>
+
+
+    <style>
+        /* Remove the navbar's default margin-bottom and rounded borders */
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+            border-color: #2222224f;
+        }
+
+        .navbar-inverse {
+            border-color: #33333308;
+        }
+
+        /* Full-width input fields */
+
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        /* Set a style for all buttons */
+
+        button {
             background-color: #2220;
             color: white;
             padding: 10px 16px;
             border: none;
             cursor: pointer;
             font-size: large;
-    }
-    
-    button:hover {
-        opacity: 0.8;
-    }
-    
-    .innerbutton{
-          color: #fff;
-          background-color: #0069d9;
-          border-color: #0062cc;
-          margin-top: 10px;
-    }
-    
-    /* Extra styles for the cancel button */
-    .cancelbtn {
-        width: auto;
-        padding: 10px 18px;
-        background-color: #f44336;
-    }
-    
-    /* Center the image and position the close button */
-    .imgcontainer {
-        text-align: center;
-        margin: 24px 0 12px 0;
-        position: relative;
-    }
-    
-    img.avatar {
-        width: 40%;
-        border-radius: 50%;
-    }
-    
-    .container {
-        padding: 16px;
-    }
-    
-    span.psw {
-        float: right;
-        padding-top: 16px;
-    }
-    
-    /* The Modal (background) */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        padding-top: 60px;
-    }
-    .modal2{
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        padding-top: 60px;
-    }
-    
-    /* Modal Content/Box */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-        border: 1px solid #888;
-        width: 80%; /* Could be more or less, depending on screen size */
-    }
-    
-    /* The Close Button (x) */
-    .close {
-        position: absolute;
-        right: 25px;
-        top: 0;
-        color: #000;
-        font-size: 35px;
-        font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-        color: red;
-        cursor: pointer;
-    }
-    
-    /* Add Zoom Animation */
-    .animate {
-        -webkit-animation: animatezoom 0.6s;
-        animation: animatezoom 0.6s
-    }
-    
-    .mainImg{
-       background-image: url("images/beach.jpg");
-       width: 100%; 
-       height:100%;
-       padding-top: 261px;
-       margin-top: -13%;
-    }
-    
-    @-webkit-keyframes animatezoom {
-        from {-webkit-transform: scale(0)} 
-        to {-webkit-transform: scale(1)}
-    }
-        
-    @keyframes animatezoom {
-        from {transform: scale(0)} 
-        to {transform: scale(1)}
-    }
-    
-    /* Change styles for span and cancel button on extra small screens */
-    @media screen and (max-width: 300px) {
-        span.psw {
-           display: block;
-           float: none;
         }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .innerbutton {
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
+            margin-top: 10px;
+        }
+
+        /* Extra styles for the cancel button */
+
         .cancelbtn {
-           width: 100%;
+            width: auto;
+            padding: 10px 18px;
+            background-color: #f44336;
         }
-    }
-    
-    .et_pb_button {
-    display: inline-block;
-    margin: 5px;
-}
-    /* Clear floats */
-.clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
-}
 
-    
-    #user-signin,
-    #user-creation {
-        margin: 10px;
-        width: 40%;
-        height: 40%;
-        padding: 5px;
-        border: solid 1px grey;
-        border-radius: 10px;
-    }
+        /* Center the image and position the close button */
 
-    #user-signin>legend,
-    user-creation>legend {
-        text-align: center;
-    }
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+            position: relative;
+        }
 
-    .form-btn {
-        margin: 10px;
-    }
+        img.avatar {
+            width: 40%;
+            border-radius: 50%;
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        span.psw {
+            float: right;
+            padding-top: 16px;
+        }
+
+        /* The Modal (background) */
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        .modal2 {
+            display: none;
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        /* Modal Content/Box */
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto 15% auto;
+            /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button (x) */
+
+        .close {
+            position: absolute;
+            right: 25px;
+            top: 0;
+            color: #000;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: red;
+            cursor: pointer;
+        }
+
+        /* Add Zoom Animation */
+
+        .animate {
+            -webkit-animation: animatezoom 0.6s;
+            animation: animatezoom 0.6s
+        }
+
+        .mainImg {
+            background-image: url("images/beach.jpg");
+            width: 100%;
+            height: 100%;
+            padding-top: 261px;
+            margin-top: -13%;
+        }
+
+        @-webkit-keyframes animatezoom {
+            from {
+                -webkit-transform: scale(0)
+            }
+            to {
+                -webkit-transform: scale(1)
+            }
+        }
+
+        @keyframes animatezoom {
+            from {
+                transform: scale(0)
+            }
+            to {
+                transform: scale(1)
+            }
+        }
+
+        /* Change styles for span and cancel button on extra small screens */
+
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+            .cancelbtn {
+                width: 100%;
+            }
+        }
+
+        .et_pb_button {
+            display: inline-block;
+            margin: 5px;
+        }
+
+        /* Clear floats */
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
 
 
-  
-  </style>
+        #user-signin,
+        #user-creation {
+            margin: 10px;
+            width: 40%;
+            height: 40%;
+            padding: 5px;
+            border: solid 1px grey;
+            border-radius: 10px;
+        }
 
+        #user-signin>legend,
+        user-creation>legend {
+            text-align: center;
+        }
+
+        .form-btn {
+            margin: 10px;
+        }
+    </style>
 
 </head>
+
 <body>
-<nav class="navbar-inverse">
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav"></ul>
-      
-      <ul class="nav navbar-nav navbar-right">
-       <button onclick="document.getElementById('id01').style.display='block'" class="glyphicon glyphicon-log-in et_pb_button">Login</button>
-        <div id="id01" class="modal">
-          <form id="user-signin-form" class="modal-content animate" action="/action_page.php">
-            <div class="imgcontainer">
-              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-              <img src="/images/island.jpg" alt="Avatar" class="avatar">
-            </div>
-        
-            <div class="container">
-              <label><b>Username</b></label>
-              <input  id="signin-username" type="text" placeholder="Enter Username" name="uname" required>
-        
-              <label><b>Password</b></label>
-              <input  id="signin-password" type="password" placeholder="Enter Password" name="psw" required>
-                
-              <button class="innerbutton" type="submit">Login</button>
-              <input type="checkbox" checked="checked"> Remember me
-            </div>
-        
-            <div class="container" style="background-color:#f1f1f1">
-              <button  id="user-signin" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-              <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
-          </form>
+    <nav class="navbar-inverse">
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav"></ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <button onclick="document.getElementById('id01').style.display='block'" class="glyphicon glyphicon-log-in et_pb_button">Login</button>
+                <div id="id01" class="modal">
+                    <form id="user-signin-form" class="modal-content animate" action="/action_page.php">
+                        <div class="imgcontainer">
+                            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                            <img src="/images/island.jpg" alt="Avatar" class="avatar">
+                        </div>
+
+                        <div class="container">
+                            <label><b>Username</b></label>
+                            <input id="signin-username" type="text" placeholder="Enter Username" name="uname" required>
+
+                            <label><b>Password</b></label>
+                            <input id="signin-password" type="password" placeholder="Enter Password" name="psw" required>
+
+                            <button class="innerbutton" type="submit">Login</button>
+                            <input type="checkbox" checked="checked"> Remember me
+                        </div>
+
+                        <div class="container" style="background-color:#f1f1f1">
+                            <button id="user-signin" type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                            <span class="psw">Forgot <a href="#">password?</a></span>
+                        </div>
+                    </form>
+                </div>
+
+                {{!--
+                <ul class="nav navbar-nav navbar-right">
+                    --}} <button onclick="document.getElementById('id02').style.display='block'" class="et_pb_button">Sign Up</button>
+                    <div id="id02" class="modal2">
+                        <form id="user-creation-form" class="modal-content animate" action="/action_page.php">
+                            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">×</span>
+                            <div class="container" style="width: 97%;">
+
+                                <label><b>Username</b></label>
+                                <input id="create-username" type="text" placeholder="Enter username" name="Username" required>
+
+                                <label><b>Password</b></label>
+                                <input id="create-password" type="password" placeholder="Enter Password" name="psw" required>
+
+                                <div class="clearfix">
+                                    <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+                                    <button type="submit" class="signupbtn innerbutton">Sign Up</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function(event) {
+                            // Get the modal
+                            var modal = document.getElementById('id01');
+                            var modal2 = document.getElementById('id02');
+
+                            // When the user clicks anywhere outside of the modal, close it
+                            window.onclick = function(event) {
+                                if (event.target == modal) {
+                                    modal.style.display = "none";
+                                }
+                                else if (event.target == modal2) {
+                                    modal2.style.display = "none";
+                                }
+                            }
+
+
+                            var $signInForm = $("#user-signin-form");
+                            var $creationForm = $("#user-creation-form");
+
+                            $signInForm.submit(function(e) {
+                                e.preventDefault();
+                                var $username = $("#signin-username");
+                                var $password = $("#signin-password");
+                                var dataToSend = {
+                                    'username': $username.val(),
+                                    'password': $password.val()
+                                };
+                                ajax("/users/login", dataToSend);
+                            });
+
+                            $creationForm.submit(function(e) {
+                                e.preventDefault();
+                                var $username = $("#create-username");
+                                var $password = $("#create-password");
+                                var dataToSend = {
+                                    'username': $username.val(),
+                                    'password': $password.val()
+                                };
+                                ajax("/users/create", dataToSend);
+                            });
+
+                            function ajax(url, dataToSend) {
+
+                                $.ajax({
+                                        url: url,
+                                        method: 'POST',
+                                        contentType: "application/json; charset=utf-8",
+                                        data: JSON.stringify(dataToSend)
+                                    })
+                                    .done(function(response) {
+                                        response = JSON.parse(response);
+                                        if (response.error) {
+                                            alert(response.error);
+                                        }
+                                        else {
+                                            window.location.href = "/";
+                                        }
+                                    })
+                                    .fail(function(err) {
+                                        console.log("Ajax Error");
+                                    })
+                                    .always(function() {
+                                        // console.log( "Completed" );
+                                    });
+                            }
+                        });
+                    </script>
+                </ul>
         </div>
-       
-{{!--        <ul class="nav navbar-nav navbar-right">
---}}        <button onclick="document.getElementById('id02').style.display='block'" class="et_pb_button">Sign Up</button>
-        <div id="id02" class="modal2">
-          <form  id="user-creation-form" class="modal-content animate" action="/action_page.php">
-            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">×</span>
-            <div class="container" style="width: 97%;">
-              
-              <label><b>Username</b></label>
-              <input id="create-username" type="text" placeholder="Enter username" name="Username" required>
-        
-              <label><b>Password</b></label>
-              <input id="create-password" type="password" placeholder="Enter Password" name="psw" required>
-      
-              <div class="clearfix">
-                <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
-                <button type="submit" class="signupbtn innerbutton">Sign Up</button>
-              </div>
-            </div>
-          </form>
         </div>
+    </nav>
 
-     
-        
-        
-        <script>
-        // Get the modal
-         var modal = document.getElementById('id01');
-         var modal2 = document.getElementById('id02');
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-            else if (event.target == modal2) {
-                modal2.style.display = "none";
-            }
-        }
-        
-         document.addEventListener("DOMContentLoaded", function(event) {
-            var $signInForm = $("#user-signin-form");
-            var $creationForm = $("#user-creation-form");
-
-            $signInForm.submit(function(e) {
-                e.preventDefault();
-                var $username = $("#signin-username");
-                var $password = $("#signin-password");
-                var dataToSend = {
-                    'username': $username.val(),
-                    'password': $password.val()
-                };
-                ajax("/users/login", dataToSend);
-            });
-
-            $creationForm.submit(function(e) {
-                e.preventDefault();
-                var $username = $("#create-username");
-                var $password = $("#create-password");
-                var dataToSend = {
-                    'username': $username.val(),
-                    'password': $password.val()
-                };
-                ajax("/users/create", dataToSend);
-            });
-
-            function ajax(url, dataToSend) {
-
-                $.ajax({
-                        url: url,
-                        method: 'POST',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify(dataToSend)
-                    })
-                    .done(function(response) {
-                        response = JSON.parse(response);
-                        if (response.error) {
-                            alert(response.error);
-                        }
-                        else {
-                            window.location.href = "/";
-                        }
-                    })
-                    .fail(function(err) {
-                        console.log("Ajax Error");
-                    })
-                    .always(function() {
-                        // console.log( "Completed" );
-                    });
-            }
-        });
-        
-        </script>
-      </ul>
+    <div class="jumbotron mainImg">
+        <div class="container text-center" style="background-color:rgba(228, 228, 228, 0.65);   border-radius: 25px;">
+            <h1>Welcome to MyVacation</h1>
+            <center> <img src="images/traveling.png" class="img-responsive" style="width:33%" alt="Image"></center>
+            <p style="font-size: 38px;">Where planning a vacation is like taking a vacation</p>
+        </div>
     </div>
-  </div>
-</nav>
-
-<div class="jumbotron mainImg">
-  <div class="container text-center" style="background-color:rgba(228, 228, 228, 0.65);   border-radius: 25px;">
-    <h1>Welcome to MyVacation</h1>   
-    <center> <img src="images/traveling.png" class="img-responsive" style="width:33%" alt="Image"></center>
-    <p  style="font-size: 38px;">Where planning a vacation is like taking a vacation</p>
-  </div>
-</div>
- <section>
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6 order-2">
-            <div class="p-5">
-              <img class="img-circle" src="/images/tree.jpeg" width="400" height="400" alt="">
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 order-2">
+                    <div class="p-5">
+                        <img class="img-circle" src="/images/tree.jpeg" width="400" height="400" alt="">
+                    </div>
+                </div>
+                <div class="col-md-6 order-1">
+                    <div class="p-5" style="margin-top: 100px;">
+                        <h2 class="display-4" style="font-size: 38px;">Save Time!</h2>
+                        <p style="font-size: 22px;">Saves time looking for local restaurants and entertainment in the area.</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-6 order-1">
-            <div class="p-5" style="margin-top: 100px;">
-              <h2 class="display-4" style="font-size: 38px;">Save Time!</h2>
-              <p  style="font-size: 22px;">Saves time looking for local restaurants and entertainment in the area.</p>
-            </div>
-          </div>
         </div>
-      </div>
     </section>
 
     <section>
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <div class="p-5" style="margin-top: 100px;">
-              <h2 class="display-4"  style="font-size: 38px;">Easy to Use!</h2>
-              <p style="font-size: 22px;">Simple layout to keep track of all vacations, entertainment you like, and to do lists.</p>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="p-5" style="margin-top: 100px;">
+                        <h2 class="display-4" style="font-size: 38px;">Easy to Use!</h2>
+                        <p style="font-size: 22px;">Simple layout to keep track of all vacations, entertainment you like, and to do lists.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-5">
+                        <img class="img-circle" src="/images/beach2.jpeg" width="400" height="400" alt="">
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="p-5">
-              <img class="img-circle" src="/images/beach2.jpeg"  width="400" height="400" alt="">
-            </div>
-          </div>
         </div>
-      </div>
     </section>
 
     <section>
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6 order-2">
-            <div class="p-5">
-               <img class="img-circle" width="400" height="400"  src="/images/relax.jpeg" alt="">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 order-2">
+                    <div class="p-5">
+                        <img class="img-circle" width="400" height="400" src="/images/relax.jpeg" alt="">
+                    </div>
+                </div>
+                <div class="col-md-6 order-1">
+                    <div class="p-5" style="margin-top: 100px;">
+                        <h2 class="display-4" style="font-size: 38px;">Plan Your Dream Vacation!</h2>
+                        <p style="font-size: 22px;">Plan small trips, hiking, day in the city, or international trips, family trips.</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-6 order-1">
-            <div class="p-5" style="margin-top: 100px;">
-              <h2 class="display-4" style="font-size: 38px;">Plan Your Dream Vacation!</h2>
-              <p style="font-size: 22px;">Plan small trips, hiking, day in the city,  or international trips, family trips.</p>
-            </div>
-          </div>
         </div>
-      </div>
     </section>
 </body>
+
 </html>

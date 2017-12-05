@@ -17,13 +17,12 @@
 	</style>
 
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
-	<script src="core.js"></script>
+	<script src="../public/js/classes/core.js"></script>
 
 </head>
  
 <body ng-controller="mainController"> 
 	
-
 	<div class="container">
 
 		<!-- HEADER AND TODO COUNT -->
@@ -70,8 +69,6 @@
 			<div ng-if="listData.length == 0 && !dataNotFound">Search Result will display here</div>
 			<div ng-if="listData.length == 0 && dataNotFound">No Result found</div>
 		</div> 
-
-		 
 
 	</div>
 
