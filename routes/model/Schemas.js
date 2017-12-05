@@ -22,6 +22,7 @@ var Location = new Schema({
 var Vacation = new Schema({
     vacationId: ObjectId,
     vacationTitle: {type: String, trim: true},
+    vacationDescription: {type: String, trim: true},
     locations: [Location],
     toDoLists: [ToDoList]
 });

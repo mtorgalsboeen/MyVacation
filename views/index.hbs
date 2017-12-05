@@ -1,14 +1,98 @@
-<script> $("#header-vacations-tab").addClass("curPage");</script>
+<style>
+    #vacations-display-wrapper {
+        width: 100%;
+        padding: 5%;
+    }
 
-{{!-- Chat Button --}}
-<form action="./chat" ><button> Go To Chat!</button></form>
+    #vacations-display-header {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        padding-bottom: 5px;
+        border-bottom: 1px solid black;
+        margin-bottom: 1%;
+    }
 
+    #vacations-display {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .vacation {
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 5px;
+        color: black;
+        text-decoration: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .vacation-link-text, .new-vacation-link-text {
+        padding: 5px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+</style>
+
+<div id="vacations-display-wrapper">
+    <div id="vacations-display-header">Vacations</div>
+    <div id="vacations-display"></div>
+</div>
 
 
 <script>
-    var currentUser = new User({{{user}}});
-    for(var i = 0; i < currentUser.vacationsLength; i++) {
-        console.log(currentUser.getVacationByIndex(i));
+    document.addEventListener("DOMContentLoaded", function(event) {
+        // Add class to current tab
+        $("#header-vacations-tab").addClass("curPage");
+        
+        
+        
+        var vacationsDisplay = $("#vacations-display");
+        vacationsDisplay.html("");
+        
+        var currentUser = new User({{{ user }}});
+        for (var i = 0; i < currentUser.vacationsLength; i++) {
+            var vacation = currentUser.getVacationByIndex(i);
+            vacationsDisplay.append(generateVacationLink(vacation));
+        }
+        vacationsDisplay.append(generateNewVacationLink());
+    });
+    
+    function generateVacationLink(vacation) {
+        // Create the link
+        var link = document.createElement("a");
+        link.setAttribute("class", "vacation");
+        
+        // Set the href and text of the link
+        var linkText = document.createElement("p");
+        linkText.setAttribute("class", "vacation-link-text");
+        linkText.append(document.createTextNode(vacation.vacationTitle));
+        
+        
+        link.setAttribute("href","/vacations/"+vacation.vacationId);
+        link.appendChild(linkText);
+        
+        // Return the new element
+        return link;
     }
     
+    function generateNewVacationLink() {
+        // Create the link
+        var link = document.createElement("a");
+        link.setAttribute("class", "vacation");
+        
+        // Set the href and text of the link
+        var linkText = document.createElement("p");
+        linkText.setAttribute("class", "new-vacation-link-text");
+        linkText.append(document.createTextNode("Create New Vacation"));
+        
+        link.setAttribute("href","/vacations/create"); // GET request, not POST
+        link.appendChild(linkText);
+        
+        // Return the new element
+        return link;
+    }
 </script>

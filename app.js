@@ -134,6 +134,7 @@ app.use('/chat', chat);
 app.use('/vacations', vacations);
 app.use('/manage', manage);
 app.use('/entertainment', entertainment);
+
 /********************************/
 
 // catch 404 and forward to error handler
