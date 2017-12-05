@@ -38,17 +38,28 @@ app.use('/classes', express.static(__dirname + '/public/js/classes'));
 /********** Session Setup **********/
 // https://github.com/expressjs/session
 var session = require('express-session');
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
+// app.use(session({
+//     name: 'MyVacation.sid',
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         secure: true,
+//         sameSite: true
+//     }
+// }));
+var sess = {
     name: 'MyVacation.sid',
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-        secure: true,
-        sameSite: true
-    }
-}));
+    cookie: {sameSite: true}
+};
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+  sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess))
 /***********************************/
 
 
