@@ -44,4 +44,27 @@ class Task{
         this.completed = !(this.completed);
     }
     
+    static createVacation(taskTitle, completed=false, callback){
+        
+        var url = window.location.origin + "/tasks/create"; 
+        var sendData = {
+            'taskTitle' : taskTitle, 
+            'completed' : completed
+        };
+        
+        $.ajax({
+            url : '/tasks/create', 
+            method : 'POST',
+            contentType : 'application/json',
+            data : JSON.stringify(sendData)
+            
+        }).done(function(response){
+            
+            response = JSON.parse(response);
+            if(response.error){
+                
+            }
+        })
+        
+    };
 }
