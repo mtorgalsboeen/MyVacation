@@ -104,7 +104,7 @@ app.use(function(req, res, next) {
     // Verify, Authenticate, and Re-route as Needed
     if (req.session.userToken) { // User token is set in session
         // check if userToken exists in db
-        User.findOne({ 'login.userToken': req.session.userToken }).exec(function(err, user) {
+        User.findOne({ 'userToken': req.session.userToken }).exec(function(err, user) {
             if(err) {   
                 // user doesn't exist in our database, destroy the session
                 res.redirect("/logout");
