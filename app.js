@@ -19,7 +19,7 @@ var login = require('./routes/login');
 var users = require('./routes/users');
 var vacations = require('./routes/vacations');
 var manage = require('./routes/manage');
-var entertainment = require('./app/routes.js');
+var entertainment = require('./routes/entertainment');
 /*************************************/
 
 var app = express();
@@ -34,6 +34,19 @@ app.use("/images", express.static(__dirname + '/public/img'));
 // set statuc classes path
 app.use('/classes', express.static(__dirname + '/public/js/classes'));
 
+
+/********** YELP **********/
+var methodOverride = require('method-override');
+var Yelp = require("yelp-api-v3");
+
+// REPLACE THESE WITH ENV VARIABLES
+global.yelp = new Yelp({
+  app_id: process.env.YELP_CLIENT_ID,
+  app_secret: process.env.YELP_CLIENT_SECRET
+});
+app.use(methodOverride());
+
+/**************************/
 
 /********** Session Setup **********/
 // https://github.com/expressjs/session
