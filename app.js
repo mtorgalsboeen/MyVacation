@@ -37,6 +37,8 @@ app.use('/classes', express.static(__dirname + '/public/js/classes'));
 
 /********** YELP **********/
 var methodOverride = require('method-override');
+app.use(methodOverride());
+
 var Yelp = require("yelp-api-v3");
 
 // REPLACE THESE WITH ENV VARIABLES
@@ -44,7 +46,6 @@ global.yelp = new Yelp({
   app_id: process.env.YELP_CLIENT_ID,
   app_secret: process.env.YELP_CLIENT_SECRET
 });
-app.use(methodOverride());
 
 /**************************/
 

@@ -1,5 +1,4 @@
 <div class="container">
-
     <!-- HEADER AND TODO COUNT -->
     <div class="jumbotron text-center">
         <h4>My Vacation</h4>
@@ -8,18 +7,43 @@
     </div>
 
     <div class="row">
-        <form class="form-inline">
+        <form class="form-inline" id="yelp-search-form">
             <div class="form-group mx-sm-3">
-                <label for="findlocation" class="sr-only">Find</label>
-                <input type="text" class="form-control" id="findlocation" placeholder="Type Name">
+                <label for="term-filter" class="sr-only">Find</label>
+                <input type="text" class="form-control" id="term-filter" placeholder="Type Name" required>
             </div>
             <div class="form-group mx-sm-3">
-                <label for="location" class="sr-only">Location</label>
-                <input type="text" class="form-control" id="location" placeholder="location">
+                <label for="location-filter" class="sr-only">Location</label>
+                <input type="text" class="form-control" id="location-filter" placeholder="location" required>
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
     </div>
 
+    <div id="display"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var yelpSearchForm = $("#yelp-search-form");
+            
+            yelpSearchForm.submit(function(e) {
+                e.preventDefault();
+                var term = $("#term-filter").val();
+                var location = $("#location-filter").val();
+                
+                Location.yelpSearch(term, location, 5, function(err, locationsArray) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        var display = $("#display");
+                        display.html("");
+                        for (var i = 0; i < locationsArray.length; i++) {
+                            display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </div>
