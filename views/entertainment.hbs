@@ -3,6 +3,7 @@
         width: 80%;
         margin: auto;
     }
+
     .yelpRow {
         padding: 10px;
         border: 1px solid black;
@@ -10,6 +11,7 @@
         grid-template-columns: 2fr 16fr 3fr;
         margin: 5px;
     }
+
     .yelpImg {
         height: 100px;
         width: 100px;
@@ -17,20 +19,22 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+
     .yelpText {
         /*border: 1px solid blue;*/
         padding: 2%;
     }
+
     .addSelect {
         /*border: 1px solid red;*/
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    
-    .addSelect > select {
+
+    .addSelect>select {
         width: 100%;
-        
+
     }
 </style>
 <div class="container">
@@ -58,56 +62,70 @@
         document.addEventListener("DOMContentLoaded", function(event) {
             var yelpSearchForm = $("#yelp-search-form");
             var user = new User({{{user}}});
-            
+
             yelpSearchForm.submit(function(e) {
                 e.preventDefault();
                 var term = $("#term-filter").val();
                 var location = $("#location-filter").val();
-                
+
                 Location.yelpSearch(term, location, 5, function(err, locationsArray) {
                     if (err) {
                         console.log(err);
                     }
                     else {
-                     //   var obj = JSON.parse('{locationsArray}');
+                        //   var obj = JSON.parse('{locationsArray}');
                         var display = $("#display");
                         display.html("");
                         for (var i = 0; i < locationsArray.length; i++) {
                             display.append(generateYelpListing(locationsArray[i]));
-                           //display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
+                            //display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
                         }
                     }
                 });
             });
+
             function generateYelpListing(yelpLocation) {
                 var yelpRow = document.createElement("div");
                 yelpRow.setAttribute("class", "yelpRow");
-                
+
                 var yelpPhoto = document.createElement("div");
-                
+
                 // yelpPhoto.setAttribute("background-image", 'url('+yelpLocation.image_url+')');
-                yelpPhoto.style.backgroundImage = "url('"+yelpLocation.image_url+"')";
-                
-                yelpPhoto.setAttribute("class","yelpImg");
-                
+                yelpPhoto.style.backgroundImage = "url('" + yelpLocation.image_url + "')";
+
+                yelpPhoto.setAttribute("class", "yelpImg");
+
                 var yelpText = document.createElement("div");
-                yelpText.setAttribute("class","yelpText");
+                yelpText.setAttribute("class", "yelpText");
                 var textLink = document.createElement("a");
                 textLink.setAttribute("href", yelpLocation.url);
                 textLink.appendChild(document.createTextNode(yelpLocation.name));
-                
+
                 yelpText.appendChild(textLink);
                 yelpText.appendChild(document.createElement("br"));
                 yelpText.appendChild(document.createElement("br"));
                 yelpText.append(document.createTextNode(yelpLocation.phone));
-                
+
                 var dropDownDiv = document.createElement("div");
-                dropDownDiv.setAttribute("class","addSelect");
-                
+                dropDownDiv.setAttribute("class", "addSelect");
+
                 var dropBox = document.createElement("select");
-                for(var i = 0; i < user.vacations.length; i++){
+                dropBox.onchange = function() { selectBoxChange(dropBox, yelpLocation.id) };
+
+                var defaultOption = document.createElement("option");
+                defaultOption.appendChild(document.createTextNode("Add to..."));
+                defaultOption.setAttribute("value", "Default");
+                dropBox.appendChild(defaultOption);
+
+                var favoritesOption = document.createElement("option");
+                favoritesOption.appendChild(document.createTextNode("Favorites"));
+                favoritesOption.setAttribute("value", "Favorites");
+                dropBox.appendChild(favoritesOption);
+
+                for (var i = 0; i < user.vacations.length; i++) {
                     var option = document.createElement("option");
                     option.appendChild(document.createTextNode(user.vacations[i].vacationTitle));
+                    option.setAttribute("value", user.vacations[i].vacationId);
                     dropBox.appendChild(option);
                 }
                 dropDownDiv.appendChild(dropBox);
@@ -115,6 +133,32 @@
                 yelpRow.appendChild(yelpText);
                 yelpRow.appendChild(dropDownDiv);
                 return yelpRow;
+            }
+
+            function selectBoxChange(selectBox, yelpApiId) {
+                // alert("Index: " + selectBox.selectedIndex + " Value: " + selectBox.options[selectBox.selectedIndex].value);
+                var index = selectBox.selectedIndex;
+                var value = selectBox.options[index].value;
+                if(index<2) {
+                    // Default or favorites
+                    if(index==1) {
+                        addFavorite(yelpApiId);
+                    } // else do nothing (default)
+                } else {
+                    // Vacations
+                    alert("This would add " + yelpApiId + " to vacation: " + value);
+                }
+            }
+
+            function addFavorite(yelpApiId) {
+                Location.createFavorite(yelpApiId, function(err, location) {
+                    if (err) {
+                        alert(err);
+                    }
+                    else {
+                        alert("Success: "+JSON.stringify(location));
+                    }
+                });
             }
         });
     </script>
