@@ -46,7 +46,6 @@ class Task{
     
     static createVacation(taskTitle, completed=false, callback){
         
-        var url = window.location.origin + "/tasks/create"; 
         var sendData = {
             'taskTitle' : taskTitle, 
             'completed' : completed
@@ -79,7 +78,6 @@ class Task{
     
     static updateVacation(taskTitle, completed=null, callback){
         
-        var url = window.location.origin + "/tasks/update"; 
         var sendData = {
             
             'taskTitle' : taskTitle, 
