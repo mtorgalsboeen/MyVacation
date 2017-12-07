@@ -1,3 +1,16 @@
+
+.details{
+  
+  font-size: 10px;
+  margin-bottom: 0;
+}
+.containloc{
+  
+  background-color: white;
+  padding: 15px 10px;
+  margin: 3px;
+  text-align: center;
+}
 .w3-xlarge {
   font-size: 17px!important;
   float: right;
@@ -14,7 +27,7 @@
     color: white;
 }
 
-p{
+.sectionTItle{
   margin: 0px 33px -41px;
   padding-top: 9px;
 }
