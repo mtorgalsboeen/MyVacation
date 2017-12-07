@@ -1,3 +1,7 @@
+.locationRow{
+    
+    display: flex;
+}
 .category{
   
   text-align: center;
