@@ -1,76 +1,54 @@
-<!DOCTYPE html>
- 
-<html ng-app="yelpApp">
-<head> 
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<div class="container">
+    <!-- HEADER AND TODO COUNT -->
+    <div class="jumbotron text-center">
+        <h3>Entertainment</h3>
 
-	<title>Entertainment page</title>
+    </div>
+    <div class="row">
+        <form class="form-inline" id="yelp-search-form">
+            <div class="form-group mx-sm-3">
+                <p>What:</p><label for="term-filter" class="sr-only">Find</label>
+                <input type="text" class="form-control" id="term-filter" placeholder="Type Name" required>
+            </div>
+            <div class="form-group mx-sm-3">
+                <p>Where:</p><label for="location-filter" class="sr-only">Location</label>
+                <input type="text" class="form-control" id="location-filter" placeholder="location" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
 
-	<!-- SCROLLS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-	<style>
-		html 					{ overflow-y:scroll; }
-		body 					{ padding-top:50px; }
-		#todo-list 				{ margin-bottom:30px; }
-		#todo-form 	 			{ margin-bottom:50px; }
-	</style>
-
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
-	<script src="../public/js/classes/core.js"></script>
-
-</head>
- 
-<body ng-controller="mainController"> 
-	
-	<div class="container">
-
-		<!-- HEADER AND TODO COUNT -->
-		<div class="jumbotron text-center">
-			  <h4>My Vacation</h4>
-			  <h3>Entertainment</h3>
-          
-		</div>
-
-		<div class="row">
-			<form class="form-inline">
-			  <div class="form-group mx-sm-3">
-			    <label for="findlocation" class="sr-only">Find</label>
-			    <input ng-model="searchParam.term" type="text" class="form-control" id="findlocation" placeholder="Type Name">
-			  </div>
-			  <div class="form-group mx-sm-3">
-			    <label for="location" class="sr-only">Location</label>
-			    <input ng-model="searchParam.location" type="text" class="form-control" id="location" placeholder="location">
-			  </div>
-			  <button type="submit" class="btn btn-primary" ng-click="searchData()">Search</button>
-			</form>
-
-		</div>
-		
-		<div class="row"> 
-	        <div class="update-info-w3l"  ng-repeat="eData in listData">
-				<div class="col-md-5 tab-image">
-					<div class="view second-effect">
-						<a href="javascript:void(0)" title="{{eData.name}}">
-							<img ng-src="{{eData.image_url}}" height="64" width="64" alt="" class="img-responsive"> 
-						</a>	
-					</div>
-					
-				</div>
-				<div class="col-md-7 tab-info one">
-				<h4><a href="javascript:void(0)">{{eData.name}}</a></h4>
-					<p ng-if="eData.review_count">Review : {{eData.review_count}}</p>
-					<p ng-if="eData.rating">Rating : {{eData.rating}}</p>
-					<p>Address : {{eData.location.display_address[0]}}, {{eData.location.display_address[1]}}</p>
-					
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div ng-if="listData.length == 0 && !dataNotFound">Search Result will display here</div>
-			<div ng-if="listData.length == 0 && dataNotFound">No Result found</div>
-		</div> 
-
-	</div>
-
-</body>
-</html>
+    </div>
+    <div id="display"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var yelpSearchForm = $("#yelp-search-form");
+            
+            yelpSearchForm.submit(function(e) {
+                e.preventDefault();
+                var term = $("#term-filter").val();
+                var location = $("#location-filter").val();
+                
+                Location.yelpSearch(term, location, 5, function(err, locationsArray) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                     //   var obj = JSON.parse('{locationsArray}');
+                        var display = $("#display");
+                        display.html("");
+                        for (var i = 0; i < locationsArray.length; i++) {
+                            display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
+                        }
+                        /*
+                        var obj = JSON.parse('{locationsArray}');
+                        
+                        display.append("</br><div>" + JSON.stringify(obj.name + obj.rating + obj.price) + "</div>");
+                        
+                        
+                        */
+                    }
+                });
+            });
+        });
+    </script>
+</div>
