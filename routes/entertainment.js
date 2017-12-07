@@ -21,7 +21,7 @@ router.get("/", function(req, res) {
         user = sanitizeUser(user);
         res.render('entertainment', {
             title: 'Entertainment',
-            user: user
+            user: JSON.stringify(user)
         });
     });
 });
