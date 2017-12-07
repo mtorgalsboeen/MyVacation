@@ -6,6 +6,16 @@
         <p> Create a new Todo list</p>
         <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="w3-button w3-xlarge w3-circle w3-teal">+</button>
     </div>
+    <div>
+       <ul id="myUL" class="toDO">
+          <li class="todoList checked">Hit the gym</li>
+          <li class="todoList">Meet George</li>
+          <li class="todoList">Buy eggs</li>
+          <li class="todoList">Read a book</li>
+          <li class="todoList">Organize office</li>
+       </ul>
+      
+    </div>
     
     <div id="id01" class="modal">
         <form class="modal-content animate">
@@ -15,14 +25,15 @@
       
           <div class="container">
             <label><b>Title </b></label>
-            <input type="text" placeholder="Add the title of the list" name="titleOflist" required>
-            <button type="submit">Enter</button>
+            <input id="myInput" type="text" placeholder="Add the title of the list" name="titleOflist" required>
+            <button onclick="newElement()" type="submit">Enter</button>
           </div>
       
           <div class="container" style="background-color:#f1f1f1">
             <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
           </div>
         </form>
+        
       </div>
       
       <script>
@@ -41,8 +52,15 @@
     
     
     
-{{!--    Entertaniment side
---}}    <div class="col-sm-6" style="background-color:lavenderblush;">.col-sm-8</div>
+
+{{!--    Entertaniment side --}}    
+   <div class="col-sm-6" style="background-color:lavenderblush;">
+      <div class="barColor2">
+        <p> Add a new Entertaniment</p>
+        <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="w3-button w3-xlarge w3-circle w3-teal">+</button>
+    </div>
+    
+   </div>
   
   </div>
 </div>

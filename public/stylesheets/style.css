@@ -18,6 +18,45 @@ p{
   padding-top: 9px;
 }
 
+
+  /* Remove margins and padding from the list */
+.toDO {
+  margin: 0;
+  padding: 0;
+}
+  
+  /* Style the list items */
+.todoList {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  list-style-type: none;
+  background: #eee;
+  font-size: 18px;
+  transition: 0.2s;
+  
+  /* make the list items unselectable */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+.todoList:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+/* Darker background-color on hover */
+.todoList:hover {
+  background: #ddd;
+}
+
+  
+  
+
+
+
 /* Full-width input fields */
 input[type=text], input[type=password] {
     width: 100%;
