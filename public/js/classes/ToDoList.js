@@ -75,4 +75,83 @@ class ToDoList{
         return this._tasks;
     }
     
+    static createToDoLists(title, tasks=[], callback){
+        
+        var url = window.location.origin + "/toDoLists/create"; 
+        // Organize data to be send within a JSON File
+        tasks = (tasks == null)? [] : tasks; 
+        var sendData = {
+            
+            'toDoListTitle' : title,
+            'tasks' : tasks
+        }
+        // Sends info to the file that maanges the Database 
+        $.ajax({
+             
+             url : "/toDoList/create", 
+             method : 'POST', 
+             contentType : 'application/json', 
+             data : JSON.parse(sendData)
+             
+        }).done(function(response){
+            
+            response = JSON.parse(response);
+            if(response.error){
+                
+                callback(response.error, {});
+            }
+            else{
+                
+                callback(null, new ToDoList(response)); 
+            }
+        }).fail(function(err){
+            
+            callback("Ajax ToDoList create odj.");
+            
+        }).always(function(){
+            
+            console.log("Create CS object ToDoList."); 
+        })
+    }
+    
+    
+    static updateToDoList(title, tasks=[], callback){
+        
+        var url = window.location.origin + "/toDoLists/update";
+         // Organize data to be send within a JSON File
+        tasks = (tasks == null)? [] : tasks; 
+        var sendData = {
+            
+            'toDoListTitle' : title,
+            'tasks' : tasks
+        }
+        // Sends info to the file that maanges the Database 
+        $.ajax({
+             
+             url : "/toDoList/create", 
+             method : 'POST', 
+             contentType : 'application/json', 
+             data : JSON.parse(sendData)
+             
+        }).done(function(response){
+            
+            response = JSON.parse(response);
+            if(response.error){
+                
+                callback(response.error, {});
+            }
+            else{
+                
+                callback(null, new ToDoList(response)); 
+            }
+        }).fail(function(err){
+            
+            callback("Ajax ToDoList create odj.");
+            
+        }).always(function(){
+            
+            console.log("Create CS object ToDoList."); 
+        })
+    }
+    
 }    
