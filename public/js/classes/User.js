@@ -13,12 +13,15 @@ class User{
     
     
     /* Getters and Setters */
+    
+    
     get favorites() {
-        var classFavorites = [];
-        for(var i = 0; i < this.favoritesLength; i++) {
-            classFavorites[i] = this.getFavoriteByIndex(i);
-        }
-        return classFavorites;
+        // var classFavorites = [];
+        // for(var i = 0; i < this.favoritesLength; i++) {
+        //     classFavorites[i] = this.getFavoriteByIndex(i);
+        // }
+        // return classFavorites;
+        return this._favorites;
     }
     
     get favoritesLength() {
@@ -62,7 +65,9 @@ class User{
         } else if (index-1 > this.favoritesLength) {
             return -1;  // Out of bounds 
         } else {
-            return new Location(this._favorites[index]);
+            // console.log("Internal format: " + JSON.stringify(this._favorites[index]));
+            var newLocation = new Location(this._favorites[index]);
+            return newLocation;
         }
     }
     

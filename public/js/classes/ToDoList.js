@@ -76,8 +76,7 @@ class ToDoList{
     }
     
     static createToDoLists(title, tasks=[], callback){
-        
-        var url = window.location.origin + "/toDoLists/create"; 
+      
         // Organize data to be send within a JSON File
         tasks = (tasks == null)? [] : tasks; 
         var sendData = {
@@ -117,7 +116,6 @@ class ToDoList{
     
     static updateToDoList(title, tasks=[], callback){
         
-        var url = window.location.origin + "/toDoLists/update";
          // Organize data to be send within a JSON File
         tasks = (tasks == null)? [] : tasks; 
         var sendData = {

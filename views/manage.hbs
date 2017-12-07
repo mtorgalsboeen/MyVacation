@@ -1,9 +1,12 @@
 <div class="container-fluid">
+  <div id="vacation-title-display">{{vacationTitle}}</div>    
   <div class="row">
   {{!--  The todo list  --}}
     <div class="col-sm-6" style="background-color:lavender;">
+      <h3 class="category" >To Do Lists</h3>
     <div class="barColor">
-        <p> Create a new Todo list</p>
+        
+        <p class="sectionTItle"> Create a new Todo list</p>
         <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="addButton">+</button>
     </div>
     <div>
@@ -199,12 +202,114 @@
 
 {{!--    Entertaniment side --}}    
    <div class="col-sm-6" style="background-color:lavenderblush;">
+     <h3 class="category"> Places To See</h3>
       <div class="barColor">
-        <p> Add a new Entertaniment</p>
-        <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="addButton">+</button>
+        
+        <p class="sectionTItle"> Add a new Entertaniment</p>
+        <button id onclick="window.location = '/entertainment'" style="width:auto;" class="addButton">+</button>
+        
     </div>
     
+    <div class="locationRow" style="text-align: center; margin: 0px;">
+  
+  <div class="col-sm-4 containloc">
+          
+          <img src="/images/CharlieHongKong.jpg" width="100" height="100">
+          
+          <div class="containloc">
+            <p class="details">Charlie Hong Kong</p>
+            <p class="details">1141 Soquel Ave</p>
+            <p class="details">Santa Cruz, CA 95062</p>
+            
+          </div>
+          
+        </div>
+   
+  <div class=" col-sm-4 containloc">
+          
+          <img src="/images/Mose.jpg" width="100" height="100">
+          
+          <div class="containloc">
+            <p class="details">Moe’s Alley</p>
+            <p class="details">1535 Commercial Way</p>
+            <p class="details">Santa Cruz, CA 95065</p>
+            
+          </div>
+          
+        </div>
+  
+  <div class=" col-sm-4 containloc">
+          
+          <img src="/images/bluffs.jpg" width="100" height="100">
+          
+          <div class="containloc">
+            <p class="details">Wilder Ranch State Park</p>
+            <p class="details">1401 Coast Rd</p>
+            <p class="details">Santa Cruz, CA 95060</p>
+            
+          </div>
+          
+        </div>
+        
+       
    </div>
+   
+   
+   <div class="locationRow" style="text-align: center; margin: 0px;">
+  
+  <div class="col-sm-4 containloc">
+          
+          <img src="/images/CharlieHongKong.jpg" width="100" height="100">
+          
+          <div class="containloc">
+            <p class="details">Charlie Hong Kong</p>
+            <p class="details">1141 Soquel Ave</p>
+            <p class="details">Santa Cruz, CA 95062</p>
+            
+          </div>
+          
+        </div>
+   
+  <div class=" col-sm-4 containloc">
+          
+          <img src="/images/Mose.jpg" width="100" height="100">
+          
+          <div class="containloc">
+            <p class="details">Moe’s Alley</p>
+            <p class="details">1535 Commercial Way</p>
+            <p class="details">Santa Cruz, CA 95065</p>
+            
+          </div>
+          
+        </div>
+  
+  <div class=" col-sm-4 containloc">
+          
+          <img src="/images/bluffs.jpg" width="100" height="100">
+          
+          <div class="containloc">
+            <p class="details">Wilder Ranch State Park</p>
+            <p class="details">1401 Coast Rd</p>
+            <p class="details">Santa Cruz, CA 95060</p>
+            
+          </div>
+          
+        </div>
+        
+       
+   </div>
+   
+    </div>
+    
+    
+   
+   
+   
+  
+  
+  
+  
+  
   
   </div>
 </div>
