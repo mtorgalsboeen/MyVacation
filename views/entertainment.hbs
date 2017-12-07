@@ -53,7 +53,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             var yelpSearchForm = $("#yelp-search-form");
-            var user = new User('{{{user}}}');
+            var user = new User({{{user}}});
             
             yelpSearchForm.submit(function(e) {
                 e.preventDefault();
@@ -77,20 +77,33 @@
             });
             function generateYelpListing(yelpLocation) {
                 var yelpRow = document.createElement("div");
+                yelpRow.setAttribute("class", "yelpRow");
+                
                 var yelpPhoto = document.createElement("div");
-                yelpPhoto.setAttribute("background-image", yelpLocation.image_url);
+                
+                // yelpPhoto.setAttribute("background-image", 'url('+yelpLocation.image_url+')');
+                yelpPhoto.style.backgroundImage = "url('"+yelpLocation.image_url+"')";
+                
+                yelpPhoto.setAttribute("class","yelpImg");
                 
                 var yelpText = document.createElement("div");
+                yelpText.setAttribute("class","yelpText");
                 var textLink = document.createElement("a");
                 textLink.setAttribute("href", yelpLocation.url);
+                textLink.appendChild(document.createTextNode(yelpLocation.name));
+                
                 yelpText.appendChild(textLink);
-                yelpText.append("</br></br>" + yelpLocation.phone);
+                yelpText.appendChild(document.createElement("br"));
+                yelpText.appendChild(document.createElement("br"));
+                yelpText.append(document.createTextNode(yelpLocation.phone));
                 
                 var dropDownDiv = document.createElement("div");
+                dropDownDiv.setAttribute("class","addSelect");
+                
                 var dropBox = document.createElement("select");
                 for(var i = 0; i < user.vacations.length; i++){
                     var option = document.createElement("option");
-                    option.html = user.vacations[i].vacationTitle;
+                    option.appendChild(document.createTextNode(user.vacations[i].vacationTitle));
                     dropBox.appendChild(option);
                 }
                 dropDownDiv.appendChild(dropBox);
