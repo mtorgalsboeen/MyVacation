@@ -60,8 +60,6 @@ router.post('/createFavorite', function(req, res, next) {
             return;
         }
         
-        
-        
         var addedLocation = user.favorites.create(new Location({
             'yelpApiId': req.body.yelpApiId
         }));

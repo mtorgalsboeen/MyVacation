@@ -20,6 +20,7 @@ var users = require('./routes/users');
 var vacations = require('./routes/vacations');
 var manage = require('./routes/manage');
 var entertainment = require('./routes/entertainment');
+var favorites = require("./routes/favorites");
 /*************************************/
 
 var app = express();
@@ -143,6 +144,7 @@ app.use('/chat', chat);
 app.use('/vacations', vacations);
 app.use('/manage', manage);
 app.use('/entertainment', entertainment);
+app.use('/favorites', favorites);
 
 /********************************/
 

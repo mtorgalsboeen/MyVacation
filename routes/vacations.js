@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 var Vacation = mongoose.model('Vacation');
 var User = mongoose.model('User');
-
+var Location = mongoose.model('Location');
 
 /*
     Go to vacation creation page (GET)
@@ -57,6 +57,7 @@ router.post('/create', function(req, res, next) {
     });
 });
 
+
 /*
     Delete a vacation
 */
@@ -95,6 +96,7 @@ router.post('/delete', function(req, res, next) {
         }
     });
 });
+
 
 /*
     Update a vacation (An overwrite update)
@@ -156,6 +158,48 @@ router.get('/:vacationId', function(req, res, next) {
         if (vacation != null) { // If so, send data to manage page
             res.send(JSON.stringify(vacation));
             // render the manage page here (instead of above line)
+        }
+        else {
+            res.send(JSON.stringify({
+                error: "Vacation not found"
+            }));
+        }
+    });
+});
+
+/*
+    Add location to vacation
+*/
+router.post('/addLocation', function(req, res, next) {
+    User.findOne({ "userToken": req.session.userToken }).exec(function(err, user) {
+        if (err) {
+            res.send({
+                error: "Error finding user"
+            });
+            return;
+        }
+        
+        // We have a user, check if there is a vacation with supplied id
+        var vacation = user.vacations.id(req.body.vacationId);
+        
+        if (vacation != null) { // If so, update and save
+            console.log("Received location add request of "+ req.body.yelpApiId);
+            
+            var newLocation = vacation.locations.create(new Location({
+                'yelpApiId' : req.body.yelpApiId
+            }));
+            vacation.locations.push(newLocation);
+            
+            user.save(function(err) { // Save the changes 
+                if (err) {
+                    res.send(JSON.stringify({
+                        error: "Error saving location"
+                    }));
+                }
+                else {
+                    res.send(JSON.stringify(newLocation));
+                }
+            });
         }
         else {
             res.send(JSON.stringify({

@@ -37,53 +37,58 @@
 
     }
 </style>
+
+{{!-- Font Awesome --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container">
-    <!-- HEADER AND TODO COUNT -->
     <div class="jumbotron text-center">
-        <h3>Entertainment</h3>
-
+        <h3>Favorites</h3>
     </div>
-    <div class="row">
-        <form class="form-inline" id="yelp-search-form">
-            <div class="form-group mx-sm-3">
-                <p>What:</p><label for="term-filter" class="sr-only">Find</label>
-                <input type="text" class="form-control" id="term-filter" placeholder="Type Name" required>
-            </div>
-            <div class="form-group mx-sm-3">
-                <p>Where:</p><label for="location-filter" class="sr-only">Location</label>
-                <input type="text" class="form-control" id="location-filter" placeholder="location" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
 
+    <div id="display">
+        <div style="text-align:center"><i class="fa fa-refresh fa-spin" style="font-size:24px"></i></div>
     </div>
-    <div id="display"></div>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            $("#header-entertainment-tab").addClass("curPage");
-            var yelpSearchForm = $("#yelp-search-form");
-            var user = new User({{{user}}});
+            $("#header-favorites-tab").addClass("curPage");
+            var user = new User({{{ user }}});
+            var favorites = user.favorites;
 
-            yelpSearchForm.submit(function(e) {
-                e.preventDefault();
-                var term = $("#term-filter").val();
-                var location = $("#location-filter").val();
+            var display = $("#display");
 
-                Location.yelpSearch(term, location, 5, function(err, locationsArray) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        //   var obj = JSON.parse('{locationsArray}');
-                        var display = $("#display");
+            // Ajax issue currently, manually load yelp data
+            for (var i = 0; i < favorites.length; i++) {
+                favorites[i] = new Location(favorites[i]);
+                // display.append(generateYelpListing(favorites[i]));
+            }
+
+            /******* Async Fix (Wait until the load is finished) *******/
+            if (favorites.length < 1) {
+                display.html("");
+                display.append("<h2>No Favorites Available</h2>");
+            }
+            else {
+                // Checks if the properties of the yelp data every half second
+                // If the data is undefined, it hasn't loaded yet
+                var loadInterval = setInterval(function() {
+                    if (typeof favorites[0].name != 'undefined') {
                         display.html("");
-                        for (var i = 0; i < locationsArray.length; i++) {
-                            display.append(generateYelpListing(locationsArray[i]));
-                            //display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
+                        for (var i = 0; i < favorites.length; i++) {
+                            var newElement = generateYelpListing(favorites[i]);
+                            display.append(newElement);
                         }
+                        endLoad();
                     }
-                });
-            });
+                }, 500);
+
+                function endLoad() {
+                    clearInterval(loadInterval);
+                }
+            }
+            /**********************************************************/
+
+
 
             function generateYelpListing(yelpLocation) {
                 var yelpRow = document.createElement("div");
@@ -118,17 +123,13 @@
                 defaultOption.setAttribute("value", "Default");
                 dropBox.appendChild(defaultOption);
 
-                var favoritesOption = document.createElement("option");
-                favoritesOption.appendChild(document.createTextNode("Favorites"));
-                favoritesOption.setAttribute("value", "Favorites");
-                dropBox.appendChild(favoritesOption);
-
                 for (var i = 0; i < user.vacations.length; i++) {
                     var option = document.createElement("option");
                     option.appendChild(document.createTextNode(user.vacations[i].vacationTitle));
                     option.setAttribute("value", user.vacations[i].vacationId);
                     dropBox.appendChild(option);
                 }
+
                 dropDownDiv.appendChild(dropBox);
                 yelpRow.appendChild(yelpPhoto);
                 yelpRow.appendChild(yelpText);
@@ -140,37 +141,24 @@
                 // alert("Index: " + selectBox.selectedIndex + " Value: " + selectBox.options[selectBox.selectedIndex].value);
                 var index = selectBox.selectedIndex;
                 var value = selectBox.options[index].value;
-                if(index<2) {
-                    // Default or favorites
-                    if(index==1) {
-                        addFavorite(yelpApiId);
-                    } // else do nothing (default)
-                } else {
+                if (index < 1) {
+                    // Default
+                }
+                else {
                     // Vacations
                     // alert("This would add " + yelpApiId + " to vacation: " + value);
                     addToVacation(value, yelpApiId);
                 }
             }
 
-            function addFavorite(yelpApiId) {
-                Location.createFavorite(yelpApiId, function(err, location) {
+            function addToVacation(vacationId, yelpApiId) {
+                Location.addToVacation(vacationId, yelpApiId, function(err, response) {
                     if (err) {
                         alert(err);
                     }
                     else {
-                        // alert("Success: "+JSON.stringify(location));
-                        alert("Successfull Added To Favorites");
+                        alert(response);
                     }
-                });
-            }
-            
-            function addToVacation(vacationId, yelpApiId) {
-                Location.addToVacation(vacationId, yelpApiId, function(err, response) {
-                   if(err) {
-                       alert(err);
-                   } else {
-                       alert(response);
-                   }
                 });
             }
         });

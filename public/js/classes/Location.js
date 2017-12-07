@@ -12,16 +12,34 @@ class Location {
         this._yelpApiId = location.yelpApiId;
 
         // Location Data (Retrieved from Yelp)
-        this._loadSuccess = false;
-        this._name = "";
-        this._image_url = "";
-        this._url = "";
-        this._rating = "";
-        this._address = "";
-        this._phone = "";
+        // this._loadSuccess = false;
+        // this._name = "";
+        // this._image_url = "";
+        // this._url = "";
+        // this._rating = "";
+        // this._address = "";
+        // this._phone = "";
 
         // Load yelp data
-        this.loadLocationData();
+        var self = this; // save instance of self (Changes in ajax calls)
+        this.loadLocationData(function(err, response) {
+            if (err) {
+                // Loaded successfully
+                self.loadSuccess = false;
+                self.failedLoad = true;
+            }
+            else {
+                // Loaded successfully
+                self.loadSuccess = true;
+                self.name = response.name;
+                self.image_url = response.image_url;
+                self.url = response.url;
+                self.rating = response.rating;
+                self.address = response.location.display_address[0];
+                self.address += " " + response.location.display_address[1];
+                self.phone = response.display_phone;
+            }
+        });
     }
 
 
@@ -104,6 +122,37 @@ class Location {
     /* Methods */
 
     /***** Static *****/
+
+    static addToVacation(vacationId, yelpApiId, callback) {
+        var dataToSend = {
+            'vacationId': vacationId,
+            'yelpApiId': yelpApiId
+        };
+
+        //Ajax request to create new vacation for current user
+        $.ajax({
+                url: '/vacations/addLocation',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dataToSend)
+            })
+            .done(function(response) {
+                response = JSON.parse(response);
+                if (response.error) {
+                    callback(response.error, {});
+                }
+                else {
+                    callback(null, "Successfully added to vacation.");
+                }
+            })
+            .fail(function(err) {
+                callback("Ajax error", {});
+            })
+            .always(function() {
+                // console.log( "Completed" );
+            });
+    }
+
 
     /**
      *  Create a new favorite (location) for the current user (in session)
@@ -219,7 +268,7 @@ class Location {
         var formatedLocationArray = [];
         for (var i = 0; i < unformattedArray.length; i++) {
             var self = {
-                "id":unformattedArray[i].id,
+                "yelpApiId": unformattedArray[i].id,
                 "name": unformattedArray[i].name,
                 "image_url": unformattedArray[i].image_url,
                 "url": unformattedArray[i].url,
@@ -242,25 +291,15 @@ class Location {
  * Loads this location's data from the yelp api
  *      uses the location's yelpApiId
  */
-Location.prototype.loadLocationData = function() {
-    var self = this; // save instance of self (Changes in ajax calls)
-
+Location.prototype.loadLocationData = function(callback) {
+    var self = this;
     // Get yelp api data for this.yelpApiId
     Location.getYelpLocationData(self.yelpApiId, function(err, response) {
         if (err) {
-            // Did not load successfully
-            self.loadSuccess = false;
+            callback("Failed To Load Yelp Data", null);
         }
         else {
-            // Loaded successfully
-            self.loadSuccess = true;
-            self.name = response.name;
-            self.image_url = response.image_url;
-            self.url = response.url;
-            self.rating = response.rating;
-            self.address = response.location.display_address[0];
-            self.address += " " + response.location.display_address[1];
-            self.phone = response.display_phone;
+            callback(null, response);
         }
     });
 }
