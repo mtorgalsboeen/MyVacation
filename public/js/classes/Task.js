@@ -62,9 +62,57 @@ class Task{
             
             response = JSON.parse(response);
             if(response.error){
-                
+                callback(response.error, {}); 
             }
-        })
+            else{
+                callback(null, new Task(response));
+            }
+            
+        }).fail(function(err){
+            callback("Ajax failure", {});
+            
+        }).always(function(){
+            console.log("Created CS Task obj.");
+        });
         
-    };
+    }
+    
+    static updateVacation(taskTitle, completed=null, callback){
+        
+        var url = window.location.origin + "/tasks/update"; 
+        var sendData = {
+            
+            'taskTitle' : taskTitle, 
+            'completed' : completed
+        }
+        
+        $.ajax({
+            
+            url : '/tasks/update', 
+            method : 'POST', 
+            contentType : 'application/json', 
+            data : JSON.parse(sendData)
+            
+        }).done(function(response){
+            
+            response = JSON.parse(response); 
+            if(response.error){
+                callback(response.error, {}); 
+            }
+            else{
+                // replace the obj all together  
+                callback(null, new Task(response)); 
+            }
+            
+        }).fail(function(err){
+            
+            callback("Ajax Task update failure", {}); 
+        }).always(function(){
+            
+            console.log("Update CS object Task obj."); 
+        })
+    }
+    
+    
+   
 }
