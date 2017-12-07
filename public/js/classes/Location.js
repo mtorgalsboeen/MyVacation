@@ -127,7 +127,7 @@ class Location {
                     callback(response.error, {});
                 }
                 else {
-                    console.log("Response to createFavorite Function: " + JSON.stringify(response))
+                    // console.log("Response to createFavorite Function: " + JSON.stringify(response));
                     var newLocation = new Location(response);
                     callback(null, newLocation);
                 }
@@ -219,6 +219,7 @@ class Location {
         var formatedLocationArray = [];
         for (var i = 0; i < unformattedArray.length; i++) {
             var self = {
+                "id":unformattedArray[i].id,
                 "name": unformattedArray[i].name,
                 "image_url": unformattedArray[i].image_url,
                 "url": unformattedArray[i].url,
