@@ -1,26 +1,23 @@
 <div class="container">
     <!-- HEADER AND TODO COUNT -->
     <div class="jumbotron text-center">
-        <h4>My Vacation</h4>
         <h3>Entertainment</h3>
 
     </div>
-
     <div class="row">
         <form class="form-inline" id="yelp-search-form">
             <div class="form-group mx-sm-3">
-                <label for="term-filter" class="sr-only">Find</label>
+                <p>What:</p><label for="term-filter" class="sr-only">Find</label>
                 <input type="text" class="form-control" id="term-filter" placeholder="Type Name" required>
             </div>
             <div class="form-group mx-sm-3">
-                <label for="location-filter" class="sr-only">Location</label>
+                <p>Where:</p><label for="location-filter" class="sr-only">Location</label>
                 <input type="text" class="form-control" id="location-filter" placeholder="location" required>
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
     </div>
-
     <div id="display"></div>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
@@ -36,11 +33,19 @@
                         console.log(err);
                     }
                     else {
+                     //   var obj = JSON.parse('{locationsArray}');
                         var display = $("#display");
                         display.html("");
                         for (var i = 0; i < locationsArray.length; i++) {
                             display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
                         }
+                        /*
+                        var obj = JSON.parse('{locationsArray}');
+                        
+                        display.append("</br><div>" + JSON.stringify(obj.name + obj.rating + obj.price) + "</div>");
+                        
+                        
+                        */
                     }
                 });
             });
