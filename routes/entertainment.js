@@ -5,12 +5,24 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Location = mongoose.model('Location');
 var Vacation = mongoose.model('Vacation');
+var functions = require('./functions.js');
+var sanitizeUser = functions.sanitizeUser;
 
 // module.exports = function(app) {
 
 router.get("/", function(req, res) {
-    res.render('entertainment', {
-        title: 'Entertainment'
+    User.findOne({ "userToken": req.session.userToken }).exec(function(err, user) {
+        if (err) {
+            res.send(JSON.stringify({
+                error: "Error finding user"
+            }));
+            return;
+        }
+        user = sanitizeUser(user);
+        res.render('entertainment', {
+            title: 'Entertainment',
+            user: user
+        });
     });
 });
 

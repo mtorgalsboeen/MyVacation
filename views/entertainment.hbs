@@ -1,3 +1,34 @@
+<style>
+    .yelpRow {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid black;
+        display: grid;
+        grid-template-columns: 2fr 16fr 3fr;
+    }
+    .yelpImg {
+        height: 100px;
+        width: 100px;
+        border: 1px solid black;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .yelpText {
+        /*border: 1px solid blue;*/
+        padding: 2%;
+    }
+    .addSelect {
+        /*border: 1px solid red;*/
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .addSelect > select {
+        width: 100%;
+        
+    }
+</style>
 <div class="container">
     <!-- HEADER AND TODO COUNT -->
     <div class="jumbotron text-center">
@@ -22,6 +53,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             var yelpSearchForm = $("#yelp-search-form");
+            var user = new User('{{{user}}}');
             
             yelpSearchForm.submit(function(e) {
                 e.preventDefault();
@@ -37,18 +69,36 @@
                         var display = $("#display");
                         display.html("");
                         for (var i = 0; i < locationsArray.length; i++) {
-                            display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
+                            display.append(generateYelpListing(locationsArray[i]));
+                           //display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
                         }
-                        /*
-                        var obj = JSON.parse('{locationsArray}');
-                        
-                        display.append("</br><div>" + JSON.stringify(obj.name + obj.rating + obj.price) + "</div>");
-                        
-                        
-                        */
                     }
                 });
             });
+            function generateYelpListing(yelpLocation) {
+                var yelpRow = document.createElement("div");
+                var yelpPhoto = document.createElement("div");
+                yelpPhoto.setAttribute("background-image", yelpLocation.image_url);
+                
+                var yelpText = document.createElement("div");
+                var textLink = document.createElement("a");
+                textLink.setAttribute("href", yelpLocation.url);
+                yelpText.appendChild(textLink);
+                yelpText.append("</br></br>" + yelpLocation.phone);
+                
+                var dropDownDiv = document.createElement("div");
+                var dropBox = document.createElement("select");
+                for(var i = 0; i < user.vacations.length; i++){
+                    var option = document.createElement("option");
+                    option.html = user.vacations[i].vacationTitle;
+                    dropBox.appendChild(option);
+                }
+                dropDownDiv.appendChild(dropBox);
+                yelpRow.appendChild(yelpPhoto);
+                yelpRow.appendChild(yelpText);
+                yelpRow.appendChild(dropDownDiv);
+                return yelpRow;
+            }
         });
     </script>
 </div>
