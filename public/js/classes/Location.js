@@ -199,7 +199,10 @@ class Location {
                 }
                 else {
                     // Convert response data to an array of locations
-                    callback(null, response.businesses);
+                    Location.yelpEasyFormatArray(response.businesses, function(formattedArray) {
+                        callback(null, formattedArray);
+                    });
+
                 }
             })
             .fail(function(err) {
@@ -209,6 +212,24 @@ class Location {
                 // console.log( "Completed" );
             });
 
+    }
+
+    static yelpEasyFormatArray(unformattedArray, callback) {
+
+        var formatedLocationArray = [];
+        for (var i = 0; i < unformattedArray.length; i++) {
+            var self = {
+                "name": unformattedArray[i].name,
+                "image_url": unformattedArray[i].image_url,
+                "url": unformattedArray[i].url,
+                "rating": unformattedArray[i].rating,
+                "address": unformattedArray[i].location.display_address,
+                "phone": unformattedArray[i].display_phone
+            };
+            formatedLocationArray[i] = self;
+        }
+
+        callback(formatedLocationArray);
     }
 
 }
@@ -237,7 +258,7 @@ Location.prototype.loadLocationData = function() {
             self.url = response.url;
             self.rating = response.rating;
             self.address = response.location.display_address[0];
-            self.address += " "+response.location.display_address[1];
+            self.address += " " + response.location.display_address[1];
             self.phone = response.display_phone;
         }
     });
