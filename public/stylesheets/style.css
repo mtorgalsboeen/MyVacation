@@ -327,6 +327,19 @@ body {
     padding: 5px 17px;
 }
 
+
+#show {
+    width: 100%;
+    padding: 23px 50px;
+    text-align: left;
+    background-color: #4cafab;
+    display: none;
+}
+
+.iteminputsize{
+      width: 50%;
+      
+}
 /* Display Vacation Title On Manage Page*/
 
 #vacation-title-display {
