@@ -17,7 +17,7 @@ router.post('/create', function(req, res, next){
         
             "userToken": req.session.userToken, 
             "user.vacations.vacationId" : req.params.vacationId,
-            "user.vacations.vacationId.toDoList.toDoListId" : req.params.toDoListId
+            "user.vacations.vacationId.toDoLists.toDoListId" : req.params.toDoListId
             
         }
         ).exec(function(err, user){
@@ -55,7 +55,47 @@ router.post('/create', function(req, res, next){
     
 });
 
-router.post('/update');
+// router.post('/update', funtion(req,res, next){
+    
+//   var Task1 = new Task({
+//         'taskTitle' : req.body.taskTitle,
+//         'completed' : req.body.completed
+        
+//     });
+    
+//     User.findOne({
+        
+//             "userToken": req.session.userToken, 
+//             "user.vacations.vacationId" : req.params.vacationId,
+//             "user.vacations.vacationId.toDoLists.toDoListId" : req.params.toDoListId, 
+//             "user.vacations.vacationId.toDoLists.toDoListId.tasks.taskId" : req.params.taskId
+            
+//     }).exec(function(err, response){
+        
+//         if(err){
+            
+//             res.send(JSON.stringify({error : "Error Ajax couldn't find user.vacations.toDoLists.task "}));
+//             callback(""); 
+//         }
+//         // 
+//         else{
+            
+//             // find the ToDoList id to manipulate the data  
+//             var task = user.vacations.vacationId.toDoLists.toDoListId.tasks.id(req.body.taskId);
+//             // found task not found 
+//             if(task == null){
+//                 res.send(JSON.stringify({error: "Task did not exist."}))
+//             }
+//             // Found the task 
+//             else{
+                
+//                 task.taskTitle = req.body.taskTitle; 
+//                 task.completed = req.body.completed;
+//             }
+//         }
+//     })
+    
+// });
 
 router.post('/delete');
 

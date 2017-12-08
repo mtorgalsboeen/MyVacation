@@ -44,7 +44,7 @@ class Task{
         this.completed = !(this.completed);
     }
     
-    static createVacation(taskTitle, completed=false, callback){
+    static createTask(taskTitle, completed=false, callback){
         
         var sendData = {
             'taskTitle' : taskTitle, 
@@ -76,7 +76,7 @@ class Task{
         
     }
     
-    static updateVacation(taskTitle, completed=null, callback){
+    static updateTask(taskTitle, completed=null, callback){
         
         var sendData = {
             
