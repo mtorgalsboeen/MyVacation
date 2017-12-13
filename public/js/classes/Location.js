@@ -11,15 +11,6 @@ class Location {
         this._locationId = location._id;
         this._yelpApiId = location.yelpApiId;
 
-        // Location Data (Retrieved from Yelp)
-        // this._loadSuccess = false;
-        // this._name = "";
-        // this._image_url = "";
-        // this._url = "";
-        // this._rating = "";
-        // this._address = "";
-        // this._phone = "";
-
         // Load yelp data
         var self = this; // save instance of self (Changes in ajax calls)
         this.loadLocationData(function(err, response) {

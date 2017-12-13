@@ -29,6 +29,7 @@ class Vacation{
     }
     
     get locations() {
+        // Convert to class formatted location
         return this._locations;
     }
     

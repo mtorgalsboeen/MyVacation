@@ -69,10 +69,21 @@
                 display.append("<h2>No Favorites Available</h2>");
             }
             else {
-                // Checks if the properties of the yelp data every half second
-                // If the data is undefined, it hasn't loaded yet
+                // Checks the the yelp data every 1/5 second on page load
+                // If any data is undefined, it hasn't loaded yet
                 var loadInterval = setInterval(function() {
-                    if (typeof favorites[0].name != 'undefined') {
+                    
+                    // Assume true and check for anything indefined
+                    var isLoaded = true;
+                    for(var i = 0; i < favorites.length; i++) {
+                        // If an undefined is found, it has not finished loading
+                        if (typeof favorites[i].name === 'undefined') {
+                            isLoaded = false;
+                        }
+                    }
+                    
+                    // If it has loaded, update the display
+                    if (isLoaded) {
                         display.html("");
                         for (var i = 0; i < favorites.length; i++) {
                             var newElement = generateYelpListing(favorites[i]);
@@ -80,9 +91,11 @@
                         }
                         endLoad();
                     }
-                }, 500);
+                    
+                }, 200);
 
                 function endLoad() {
+                    // Stops the interval check
                     clearInterval(loadInterval);
                 }
             }
