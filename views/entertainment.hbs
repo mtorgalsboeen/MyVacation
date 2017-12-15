@@ -8,7 +8,7 @@
         padding: 10px;
         border: 1px solid black;
         display: grid;
-        grid-template-columns: 2fr 16fr 3fr;
+        grid-template-columns: 2fr 16fr 3fr 1fr;
         margin: 5px;
     }
 
@@ -74,12 +74,10 @@
                         console.log(err);
                     }
                     else {
-                        //   var obj = JSON.parse('{locationsArray}');
                         var display = $("#display");
                         display.html("");
                         for (var i = 0; i < locationsArray.length; i++) {
                             display.append(generateYelpListing(locationsArray[i]));
-                            //display.append("</br><div>" + JSON.stringify(locationsArray[i]) + "</div>");
                         }
                     }
                 });
@@ -130,6 +128,7 @@
                     dropBox.appendChild(option);
                 }
                 dropDownDiv.appendChild(dropBox);
+                
                 yelpRow.appendChild(yelpPhoto);
                 yelpRow.appendChild(yelpText);
                 yelpRow.appendChild(dropDownDiv);

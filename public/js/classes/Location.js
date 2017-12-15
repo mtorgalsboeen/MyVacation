@@ -179,6 +179,40 @@ class Location {
                 // console.log( "Completed" );
             });
     }
+    
+    
+    /**
+     *  Delete a favorite (location) for the current user (in session)
+     *   Callback: function(err, success)
+     */
+    static deleteFavorite(yelpApiId, callback) {
+        var dataToSend = {
+            'yelpApiId': yelpApiId
+        };
+
+        //Ajax request to create new vacation for current user
+        $.ajax({
+                url: '/entertainment/deleteFavorite',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dataToSend)
+            })
+            .done(function(response) {
+                response = JSON.parse(response);
+                if (response.error) {
+                    callback(response.error, {});
+                }
+                else {
+                    callback(null, response.success);
+                }
+            })
+            .fail(function(err) {
+                callback("Ajax error", {});
+            })
+            .always(function() {
+                // console.log( "Completed" );
+            });
+    }
 
 
     /**

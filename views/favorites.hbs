@@ -8,7 +8,7 @@
         padding: 10px;
         border: 1px solid black;
         display: grid;
-        grid-template-columns: 2fr 16fr 3fr;
+        grid-template-columns: 2fr 16fr 3fr 1fr;
         margin: 5px;
     }
 
@@ -35,6 +35,15 @@
     .addSelect>select {
         width: 100%;
 
+    }
+    
+    .deleteBtn {
+        text-align: right;
+        color: red;
+    }
+    
+    .deleteBtn:hover {
+        cursor: pointer;
     }
 </style>
 
@@ -127,7 +136,7 @@
 
                 var dropDownDiv = document.createElement("div");
                 dropDownDiv.setAttribute("class", "addSelect");
-
+                
                 var dropBox = document.createElement("select");
                 dropBox.onchange = function() { selectBoxChange(dropBox, yelpLocation.yelpApiId) };
 
@@ -144,9 +153,21 @@
                 }
 
                 dropDownDiv.appendChild(dropBox);
+                
+                var deleteButton = document.createElement("span");
+                deleteButton.setAttribute("class", "deleteBtn");
+                
+                // Use font-awesome for X symbol
+                var x = document.createElement("i");
+                x.setAttribute("class", "fa fa-times");
+                deleteButton.appendChild(x);
+                deleteButton.onclick = function(){ deleteFavorite(yelpLocation.name, yelpLocation.yelpApiId)};
+                
                 yelpRow.appendChild(yelpPhoto);
                 yelpRow.appendChild(yelpText);
                 yelpRow.appendChild(dropDownDiv);
+                yelpRow.appendChild(deleteButton);
+                
                 return yelpRow;
             }
 
@@ -173,6 +194,19 @@
                         alert(response);
                     }
                 });
+            }
+            
+            function deleteFavorite(yelpName, yelpApiId) {
+                var confirmation = confirm(yelpName + " will be deleted from your favorites.\n\n Press Ok to continue or Cancel");
+                if(confirmation) {
+                    Location.deleteFavorite(yelpApiId, function(err,response) {
+                        if(err) {
+                            alert(err);
+                        } else {
+                            location.reload();
+                        }
+                    });
+                }
             }
         });
     </script>

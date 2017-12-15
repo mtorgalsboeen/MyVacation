@@ -59,7 +59,7 @@ router.post('/createFavorite', function(req, res, next) {
             }));
             return;
         }
-        
+
         var addedLocation = user.favorites.create(new Location({
             'yelpApiId': req.body.yelpApiId
         }));
@@ -77,6 +77,49 @@ router.post('/createFavorite', function(req, res, next) {
     });
 });
 
+
+/*
+    Create a favorite (location)
+*/
+router.post('/deleteFavorite', function(req, res, next) {
+
+    User.findOne({ "userToken": req.session.userToken }).exec(function(err, user) {
+        if (err) {
+            res.send(JSON.stringify({
+                error: "Error finding user"
+            }));
+            return;
+        }
+    
+        // user array primitives to fine the favorite with the right yelpApiId
+        var location = user.favorites.filter(function(location) {
+           return location.yelpApiId === req.body.yelpApiId; 
+        }).pop();
+        
+        if (location != null) { // If so, delete and save
+            location.remove();
+            user.save(function(err) {
+                if (err) {
+                    res.send(JSON.stringify({
+                        error: "Error saving changes to favorites"
+                    }));
+                }
+                else {
+                    res.send(JSON.stringify({
+                        success: location.isFulfilled
+                    }));
+                }
+            });
+        }
+        else {
+            res.send(JSON.stringify({
+                error: "Favorite not found"
+            }));
+        }
+
+
+    });
+});
 
 router.get("/getYelpLocation/:id", function(req, res) {
 
