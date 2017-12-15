@@ -3,114 +3,71 @@
   <div class="row">
   {{!--  The todo list  --}}
     <div class="col-sm-6" style="background-color:lavender;">
-      <h3 class="category" >To Do Lists</h3>
+      <h3 class="category" >To Do List</h3>
     <div class="barColor">
-        
-        <p class="sectionTItle"> Create a new Todo list</p>
-        <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="addButton">+</button>
+        <input style="width:  88%; margin: 9px 11px; padding: 0px 14px;" type="text" id="myInput" placeholder="Add item">
+        <button onclick="newElement()" style="width:auto;" class="addButton">+</button>
     </div>
     <div>
        <ul id="myUL" class="toDO">
-          <li onclick="showFunction()" class="todoList">Items to buy </li>
-          <div id="show">
-                 <input class= "iteminputsize" type="text" id="items" placeholder="Title...">
-                 <span onclick="newElement2()" class="addBtn">Add</span>
-                 <ul id="myitems">
-                    <li id="eachItem">toothpaste </li>
-                    <li id="eachItem" class="checked">food</li>
-                    <li id="eachItem">shoes</li>
-                    <li id="eachItem">hat</li>
-                </ul>
-          </div>
-          
-          
-          <li class="todoList">Items to take on the plane</li>
-         {{!-- <div id="show1">
-               This is the second one. 
-          </div>--}}
-          
-          
-          <li class="todoList">Items I have on my luggage</li>
-         {{!-- <div id="show2">
-               This is my DIV element.
-          </div> --}}
-       
-       
        </ul>
     </div>
     
     
-    
-    <div id="id01" class="modal">
-        <form class="modal-content animate">
-          <div class="imgcontainer">
-             <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-          </div>
-      
-          <div class="container">
-            <label><b>Title </b></label>
-            <input id="myInput" type="text" placeholder="Add the title of the list" name="titleOflist" required>
-            <button onclick="newElement()" class="enter"  type="submit">Enter</button>
-          </div>
-      
-          <div class="container" style="background-color:#f1f1f1">
-            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-          </div>
-        </form>
-        
-      </div>
       
       <script>
-      // Get the modal
-      var modal = document.getElementById('id01');
-      var counter;
       
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
-          if (event.target == modal) {
-              modal.style.display = "none";
-          }
-      }
-      
-      // append it to each list item
-      var myNodelist = document.getElementsByTagName("LI");
+      // Create a "close" button and append it to each list item
+      var myNodelist = document.getElementsByTagName("myUL");
       var i;
       for (i = 0; i < myNodelist.length; i++) {
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "closingItems";
+        span.appendChild(txt);
         myNodelist[i].appendChild(span);
       }
-          
-      // Create a new list item when clicking on the "Add" button
-      function newElement() {
-
-        if(isNaN(counter))
-        {
-           counter=0;
+      
+      // Click on a close button to hide the current list item
+      var close = document.getElementsByClassName("closingItems");
+      var i;
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+          var div = this.parentElement;
+          div.style.display = "none";
         }
-        
-        counter++;
-        
-        
+      }
+      
+      // Add a "checked" symbol when clicking on a list item
+      var list = document.querySelector('ul');
+      list.addEventListener('click', function(ev) {
+        if (ev.target.tagName === 'li') {
+          ev.target.classList.toggle('checked');
+        }
+      }, false);
+          
+      // Create a new item when clicking on the "Add" button
+      function newElement() {
         var li = document.createElement("li");
         var inputValue = document.getElementById("myInput").value;
         var t = document.createTextNode(inputValue);
         var div = document.createElement("div");
         
         li.className="todoList";
-        li.id=counter;
-        li.onclick=showFunction;
         li.appendChild(t);
-        
-        div.id="show"+ counter;
         
         if (inputValue === '') {
           alert("You must write something!");
         } else {
           document.getElementById("myUL").appendChild(li);
-          document.getElementById(counter).appendChild(div);
         }
         document.getElementById("myInput").value = "";
+
+        var span = document.createElement("SPAN");
+        var txt = document.createTextNode("\u00D7");
+        span.className = "closingItems";
         span.appendChild(txt);
-        li.appendChild(span);
+        li.appendChild(span);;
       
         for (i = 0; i < close.length; i++) {
           close[i].onclick = function() {
@@ -119,78 +76,7 @@
           }
         }
       }
-      
-      /*Hidden the list or showing the list*/
-      function showFunction() {
-        var x = document.getElementById("show");
-        
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-      }
-      
-      
-      
-      /*items list*/
-      // Create a "close" button and append it to each list item
-        var myitemlist = document.getElementById("eachItem")
-        var x;
-        for (x = 0; x < myitemlist.length; x++) {
-          var span = document.createElement("SPAN");
-          var txt = document.createTextNode("\u00D7");
-          span.className = "close";
-          span.appendChild(txt);
-          myitemlist[i].appendChild(span);
-        }
-        
-        // Click on a close button to hide the current list item
-        var close = document.getElementsByClassName("close");
-        var i;
-        for (i = 0; i < close.length; i++) {
-          close[i].onclick = function() {
-            var div = this.parentElement;
-            div.style.display = "none";
-          }
-        }
-        
-        // Add a "checked" symbol when clicking on a list item
-        var list = document.querySelector('ul');
-        list.addEventListener('click', function(ev) {
-          if (ev.target.tagName === 'LI') {
-            ev.target.classList.toggle('checked');
-          }
-        }, false);
-        
-        // Create a new list item when clicking on the "Add" button
-        function newElement2() {
-          var li = document.createElement("li");
-          var inputValue = document.getElementById("items").value;
-          var t = document.createTextNode(inputValue);
-          li.appendChild(t);
-          if (inputValue === '') {
-            alert("You must write something!");
-          } else {
-            document.getElementById("myitems").appendChild(li);
-          }
-          document.getElementById("items").value = "";
-        
-          
-          span.className = "close";
-          span.appendChild(txt);
-          li.appendChild(span);
-        
-          for (i = 0; i < close.length; i++) {
-            close[i].onclick = function() {
-              var div = this.parentElement;
-              div.style.display = "none";
-            }
-          }
-        }
-                
-              
-      
+  
       </script>
 
   </div>
