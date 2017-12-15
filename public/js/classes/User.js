@@ -16,12 +16,12 @@ class User{
     
     
     get favorites() {
-        // var classFavorites = [];
-        // for(var i = 0; i < this.favoritesLength; i++) {
-        //     classFavorites[i] = this.getFavoriteByIndex(i);
-        // }
-        // return classFavorites;
-        return this._favorites;
+        var classFavorites = [];
+        for(var i = 0; i < this.favoritesLength; i++) {
+            classFavorites[i] = this.getFavoriteByIndex(i);
+        }
+        return classFavorites;
+        // return this._favorites;
     }
     
     get favoritesLength() {
