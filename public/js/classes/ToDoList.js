@@ -75,7 +75,7 @@ class ToDoList{
         return this._tasks;
     }
     
-    static createToDoLists(title, tasks=[], callback){
+    static createToDoList(title, tasks=[], callback){
       
         // Organize data to be send within a JSON File
         tasks = (tasks == null)? [] : tasks; 

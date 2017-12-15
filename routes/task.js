@@ -3,7 +3,11 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 var Task = mongoose.model('Task');
-var User = mongoose.model('User'); 
+var ToDoList = mongoose.model('ToDoList'); 
+var Vacation = mongoose.model('Vacation');
+
+
+
 
 router.post('/create', function(req, res, next){
     
@@ -13,49 +17,84 @@ router.post('/create', function(req, res, next){
         
     });
     // Find the user to add in the task before 
-    User.findOne({
+    
+    Vacation.findOne({
         
-            "userToken": req.session.userToken, 
-            "user.vacations.vacationId" : req.params.vacationId,
-            "user.vacations.vacationId.toDoList.toDoListId" : req.params.toDoListId
+        "userToken":req.session.userToken,
+        "user.vacations.vacationId" : req.params.vacationId,
+        "user.vacations.vacationId.toDoLists.toDoListId" : req.params.toDoListId,
+    }).exec(function(err, vaca){
+        
+        if(err){
             
+            res.send(JSON.stringify({ error: "Error can't find Vacation"}));
+            return; 
         }
-        ).exec(function(err, user){
+        var addTask = vaca.toDoLists.tasks.create(Task1);
+        vaca.toDoLists.tasks.push(addTask); 
         
-            // Catches Errors 
+        vaca.save(function(err, vaca){
+            
             if(err){
                 
-                res.send(JSON.stringify({error : "Error could not find user"}));
+                res.send(JSON.stringify({error : "Error Tasks Not Saved"})); 
                 
             }
             else{
-                
-                var addTask = user.vacations.toDoLists.tasks.create(Task1);
-                user.vacations.toDoLists.tasks.push(addTask); 
-                user.save(function(err, user){
-                    
-                    if(err){
-                        
-                        res.send(JSON.stringify(({
-                            error : "Error saving Task in To Do List"
-                        })));
-                    }
-                    else{
-                        
-                        res.send(JSON.stringify(addTask));
-                    }
-                });
+                res.send(JSON.stringify(addTask));
             }
-            
-        
+        });
     });
     
-    // Once added to the database 
-    // Create funtion(IN THE CLASS) to add in the task to the toDoList 
-    
-});
+}); 
 
-router.post('/update');
+router.post('/update', function(res, req, next){
+    
+    
+    Vacation.findOne({
+            
+            "userToken":req.session.userToken,
+            "user.vacations.vacationId" : req.params.vacationId,
+            "user.vacations.vacationId.toDoLists.toDoListId" : req.params.toDoListId, 
+            "user.vacations.vacationId.toDoLists.toDoListId.tasks.taskId" : req.params.taskId
+            
+    }).exec(function(err, vaca){
+        
+        
+        if(err){
+            
+            res.send({error: "Error finding task"}); 
+            return; 
+        }
+        
+        var task1 = vaca.toDoLists.tasks.id(req.body.taskId);
+        // task doesnt exist 
+        if(task1 != null){
+            
+            task1.taskTitle = req.body.taskTitle;
+            task1.completed = req.body.completed;
+            // vacations.toDoLists.tasks.push(addTask);
+            vaca.save(function(err){
+                
+                if(err){
+                    
+                    res.send(JSON.stringify({ error: "Error saving Task"})); 
+                }
+                else{
+                    
+                    res.send(JSON.stringify(task1)); 
+                }
+            });    
+        }
+        else{
+            
+            res.send(JSON.stringify({error : "Task Not Found"}));
+        }
+        
+    });
+}); 
+
+
 
 router.post('/delete');
 
