@@ -76,10 +76,12 @@ class Task{
         
     }
     
-    static updateTask(taskTitle, completed=null, callback){
+    static updateTask(vacationId, toDoListId, taskTitle, completed=null, callback){
         
         var sendData = {
             
+            'vacationID' : vacationId, 
+            'toDoListId' : toDoListId, 
             'taskTitle' : taskTitle, 
             'completed' : completed
         }

@@ -38,10 +38,10 @@ router.post("/yelpSearch", function(req, res) {
         })
         .catch(function(err) {
             // console.error(err);
-            // res.json({ "status": false, "error": err });
-            res.send(JSON.stringify({
-                error: "Error finding locations"
-            }));
+            res.json({ "status": false, "error": err });
+            //res.send(JSON.stringify({
+                //error: "Error finding locations"
+           // }));
         });
 
 });

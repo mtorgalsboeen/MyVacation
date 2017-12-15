@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var Task = mongoose.model('Task');
 var ToDoList = mongoose.model('ToDoList'); 
 var Vacation = mongoose.model('Vacation');
-
+var User = mongoose.model('User');
 
 
 
@@ -18,7 +18,7 @@ router.post('/create', function(req, res, next){
     });
     // Find the user to add in the task before 
     
-    Vacation.findOne({
+    User.findOne({
         
         "userToken":req.session.userToken,
         "user.vacations.vacationId" : req.params.vacationId,

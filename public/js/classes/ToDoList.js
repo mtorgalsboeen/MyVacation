@@ -75,12 +75,13 @@ class ToDoList{
         return this._tasks;
     }
     
-    static createToDoList(title, tasks=[], callback){
+    static createToDoList(vacationId, title, tasks=[], callback){
       
         // Organize data to be send within a JSON File
         tasks = (tasks == null)? [] : tasks; 
         var sendData = {
             
+            'vacationID' : vacationId, 
             'toDoListTitle' : title,
             'tasks' : tasks
         }
@@ -114,12 +115,14 @@ class ToDoList{
     }
     
     
-    static updateToDoList(title, tasks=[], callback){
+    static updateToDoList(vacationId, toDoListId,  title, tasks=[], callback){
         
          // Organize data to be send within a JSON File
         tasks = (tasks == null)? [] : tasks; 
         var sendData = {
             
+            'vacationID' : vacationId, 
+            'toDoListId' : toDoListId,
             'toDoListTitle' : title,
             'tasks' : tasks
         }
