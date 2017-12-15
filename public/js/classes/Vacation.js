@@ -173,7 +173,6 @@ class Vacation {
         Optional Callback: function(err, deletedVacation)
     */
     static deleteVacation(vacationId, callback = null) {
-        var url = window.location.origin + "/vacations/delete";
         var dataToSend = {
             'vacationId': vacationId
         };
